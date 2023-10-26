@@ -34,17 +34,17 @@ const teams: Story['args']['teams'] = [
     fullName: 'Los Angeles Lakers'
   },
   {
-    id: 1,
+    id: 2,
     name: 'lakers',
     fullName: 'Los Angeles Lakers'
   },
   {
-    id: 1,
+    id: 3,
     name: 'lakers',
     fullName: 'Los Angeles Lakers'
   },
   {
-    id: 1,
+    id: 4,
     name: 'lakers',
     fullName: 'Los Angeles Lakers'
   },
