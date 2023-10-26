@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id         Int      @id @default(autoincrement())
+  time       DateTime @db.Timestamptz(6)
+  homeTeamId Int
+  awayTeamId Int
+  homeScord  Int
+  awayScore  Int
+  spread     Int
+  awayTeam   Team     @relation("awayTeamRelation", fields: [awayTeamId], references: [id])
+  homeTeam   Team     @relation("homeTeamRelation", fields: [homeTeamId], references: [id])
+}
+
+model Owner {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(50)
+  username    String        @db.VarChar(50)
+  SeasonDraft SeasonDraft[] @relation("draftOwnerRelation")
+}
+
+model TeamSeasonStats {
+  id     Int  @id @default(autoincrement())
+  season Int
+  teamId Int
+  seasonId Int
+  wins   Int
+  losses Int
+  point  Int
+  seasonDraft SeasonDraft @relation("teamStatsRelation", fields: [seasonId], references: [id])     
+  team  Team @relation("teamStatsRelation", fields: [teamId], references: [id])
+}
+
+model SeasonDraft {
+  id      Int   @id @default(autoincrement())
+  season  Int
+  ownerId Int
+  teamSeasonStats TeamSeasonStats[] @relation("teamStatsRelation")
+  owner   Owner @relation("draftOwnerRelation", fields: [ownerId], references: [id])
+}
+
+model Team {
+  id              Int                 @id @default(autoincrement())
+  abbreviation    String              @db.VarChar(5)
+  city            String              @db.VarChar(30)
+  conference      String              @db.VarChar(30)
+  division        String              @db.VarChar(30)
+  fullName        String              @db.VarChar(50)
+  name            String              @db.VarChar(30)
+  awayGames       Game[]              @relation("awayTeamRelation")
+  homeGames       Game[]              @relation("homeTeamRelation")
+  teamSeasonStats TeamSeasonStats[] @relation("teamStatsRelation")
+}
