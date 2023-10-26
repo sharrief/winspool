@@ -27,7 +27,7 @@ model Game {
 model Owner {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(50)
-  username    String        @db.VarChar(50)
+  username    String        @db.VarChar(50) @unique
   SeasonDraft SeasonDraft[] @relation("draftOwnerRelation")
 }
 
@@ -57,7 +57,7 @@ model Team {
   conference      String            @db.VarChar(30)
   division        String            @db.VarChar(30)
   fullName        String            @db.VarChar(50)
-  name            String            @db.VarChar(30)
+  name            String            @db.VarChar(30) @unique
   awayGames       Game[]            @relation("awayTeamRelation")
   homeGames       Game[]            @relation("homeTeamRelation")
   teamSeasonStats TeamSeasonStats[] @relation("teamStatsRelation")

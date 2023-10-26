@@ -1,6 +1,11 @@
 import prisma from "@/db/prisma";
 
-type SeasonStat = { [season: number]: number }
+type StatsBySeason = { [season: number]: number }
+export type SeasonStats = {
+  wins: number
+  losses: number
+  ties: number
+}
 
 /**
  * Loads the teams and games to aggregate the win/loss/tie stats
@@ -19,9 +24,9 @@ async function updateTeamSeasonStats() {
     });
 
     let seasons = new Set<number>();
-    let wins: SeasonStat = {};
-    let losses: SeasonStat = {};
-    let ties: SeasonStat = {};
+    let wins: StatsBySeason = {};
+    let losses: StatsBySeason = {};
+    let ties: StatsBySeason = {};
     let gameCount: {[season: number]: number} = {};
 
     /** Calculate the seasonal stats for the team */

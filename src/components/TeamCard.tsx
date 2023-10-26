@@ -5,27 +5,29 @@ import Image from "next/image";
 /** The props for the TeamCard */
 export interface TeamCardProps {
   /** The team name */
-  name: string,
+  name: string
   /** The team logo image */
-  image: string | StaticImport,
+  image: string | StaticImport
   /** The number of wins to display */
-  wins: number,
+  wins: number|string
   /** The number of losses to display */
-  losses: number,
+  losses: number|string
+  /** The number of ties to display */
+  ties: number|string
   /** The score to display */
-  score: number,
+  score: number|string
   /** The team color theme */
-  theme: TeamTheme,
+  theme: TeamTheme
 }
 
 export default function TeamCard({
-  name, image, wins, losses, score, 
-  theme,
-  
+  name, image, theme,
+  wins, losses, ties, score
 }: TeamCardProps) {
-  return (<div className="card shadow-xl">
+  return (<div className="rounded-xl shadow-xl" 
+  style={{ backgroundColor: theme.secondaryColor}}>
   <div 
-    className="p-2 rounded-t-xl"
+    className="p-2 rounded-t-xl shadow-xl"
     style={{ 
       backgroundColor: theme.primaryColor, 
   }}>
@@ -48,11 +50,11 @@ export default function TeamCard({
       </figure>
     </div>
   <div 
-  className={`card-body rounded-b-xl ${theme.secondaryText === 'black' ? 'text-black':'text-white'}`} 
-  style={{ backgroundColor: theme.secondaryColor}}>
-    <div className="w-full text-center text-3xl">{name}</div>
-    <div className="w-full text-center text-3xl">W {wins} - {losses} L</div>
-    <div className="w-full text-center text-3xl">{score} pts</div>
+  className={`px-2 py-11 rounded-b-xl ${theme.secondaryText === 'black' ? 'text-black':'text-white'}`}
+  >
+    <div className="w-full text-center text-lg xl:text-xl">{name}</div>
+    <div className="w-full text-center text-lg xl:text-xl">{wins} -{ties ? ` ${ties} -` : ''} {losses}</div>
+    <div className="w-full text-center text-lg xl:text-xl">{score} pts</div>
   </div>
 </div>);
 }
