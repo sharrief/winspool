@@ -3,7 +3,7 @@ import { delay } from "@/util/delay"
 import { createGames, getGameCount } from "@/util/db_bootstrapping/dbQueries"
 import { APIGame, fetchGamesByPage } from "@/util/db_bootstrapping/apiQueries"
 import logger from '@/util/logger';
-import convertAPIGameToPoolGame from '@/util/db_bootstrapping/convertGame';
+import convertGame from '@/util/db_bootstrapping/convertGame';
 config();
 
 /**
@@ -42,7 +42,7 @@ export default async function loadGamesIntoDB(season = 2020) {
     // Not sure if the API can even send empty pages, but handle it anyway
     if (!games.length) break;
 
-    await createGames(games.map((g) => (convertAPIGameToPoolGame(g))));
+    await createGames(games.map((g) => (convertGame(g))));
     savedCount += games.length;
     logger.log(`Loaded ${savedCount} of ${total_count} games.`);
     

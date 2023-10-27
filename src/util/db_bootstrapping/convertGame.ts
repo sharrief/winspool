@@ -1,17 +1,41 @@
 import { APIGame } from "@/util/db_bootstrapping/apiQueries";
+import { Prisma } from "@prisma/client";
+import { z } from "zod";
 
-export default function convertGame(g: APIGame) {
+const validAPITeam = z.object({
+  id: z.number().int(),
+  abbreviation: z.string(),
+  city: z.string(),
+  conference: z.string(),
+  division: z.string(),
+  full_name: z.string(),
+  name: z.string(),
+});
+
+const validAPIGame = z.object({
+  id: z.number().int(),
+  date: z.string(),
+  home_team: validAPITeam,
+  visitor_team: validAPITeam,
+  season: z.number(),
+  period: z.number().int(),
+  status: z.string(),
+  time: z.string(),
+  postseason: z.boolean(),
+  home_team_score: z.number().int(),
+  visitor_team_score: z.number().int(),
+})
+
+export default function convertGame(_game: APIGame): Prisma.GameGetPayload<{}> {
+  const game = validAPIGame.parse(_game);
   return {
-    apiId: g.id,
-    date: new Date(g.date),
-    homeTeamId: g.home_team.id,
-    awayTeamId: g.visitor_team.id,
-    season: g.season,
-    period: g.period,
-    status: g.status,
-    time: g.time ?? '',
-    postseason: g.postseason,
-    homeScore: g.home_team_score,
-    awayScore: g.visitor_team_score,
+    ...game,
+    apiId: game.id,
+    date: new Date(game.date),
+    /** DB stores the teams as fk references */
+    homeTeamId: game.home_team.id,
+    awayTeamId: game.visitor_team.id,
+    homeScore: game.home_team_score,
+    awayScore: game.visitor_team_score,
   }
 }

@@ -1,25 +1,14 @@
-import { APIGame, fetchGamesByPage } from "@/util/db_bootstrapping/apiQueries";
+import { fetchGamesByPage } from "@/util/db_bootstrapping/apiQueries";
 import convertGame from "@/util/db_bootstrapping/convertGame";
 import { getGameCount, createGames } from "@/util/db_bootstrapping/dbQueries";
-import { APITeam } from "@/util/db_bootstrapping/loadTeams";
 import loadGamesIntoDB from "./loadGames"
+import { mockAPIGame } from "./mockData";
 
 // Arrange
 jest.mock('./dbQueries');
 const mockedGetGameCount = jest.mocked(getGameCount);
 
-const mockTeam: APITeam = {
-  id: 1, abbreviation: 'ABC', 
-  name: 'Alphabets', full_name: 'English Alphabets',
-  city: 'English', conference: 'Main', division: 'Half'
-}
-const mockGame: APIGame = {
-  id: 1, date: '', home_team: { ...mockTeam }, visitor_team: { ...mockTeam },
-  home_team_score: 0, visitor_team_score: 0, 
-  season: 1, status: '', time: '', postseason: false, period: 1 
-}
-
-jest.mock('./convertAPIGameToPoolGame')
+jest.mock('./convertGame')
 jest.mocked(convertGame).mockImplementation((a) => a as any);
 
 jest.mock('./apiQueries');
@@ -38,8 +27,8 @@ describe('loadGamesIntoDB', () => {
 
   it('saves games from multiple pages', async () => {
     // Arrange
-    const game1 = {...mockGame};
-    const game2 = {...mockGame, id: 2 };
+    const game1 = {...mockAPIGame};
+    const game2 = {...mockAPIGame, id: 2 };
     mockedGetGameCount.mockResolvedValueOnce(0);
     mockFetchGamesByPage
     .mockResolvedValueOnce({ data: [game1], meta: {
