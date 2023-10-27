@@ -3,24 +3,20 @@ import prisma from '@/db/prisma';
 import { ZodError, z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import messages from '@/util/messages';
-import OwnerHeading from '@/components/OwnerHeading';
-import TeamCard from '@/components/TeamCard';
-import teamThemes, { TeamName } from '@/util/teamThemes';
-import { Prisma } from '@prisma/client';
 import { SeasonStats } from '@/util/dataAPI/updateStats.script';
 import OwnerSeasonSummary, { StatsBySeasonByTeam } from '@/components/OwnerSeasonSummary';
 
 /**
  *
- * @param _username The id of the owner to get
+ * @param _username The username of the owner to get
  * @returns The owner or error
  */
 export async function getOwnerDraftTeamsBySeason(_username: string) {
   try {
-    /** The id must be a positive integer  */
+    /** The username must be a string  */
     const validOwnerUsername = z.string();
     const username = validOwnerUsername.parse(_username);
-    /** Find the owner by id and include the owner teams */
+    /** Find the owner by username and include the owner teams */
     const draftSeasons = await prisma.seasonDraft.findMany({
       where: { owner: { username } },
       include: { 
