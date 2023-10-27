@@ -3,7 +3,7 @@ import prisma from '@/db/prisma';
 import { ZodError, z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import messages from '@/util/messages';
-import { SeasonStats } from '@/util/dataAPI/updateStats.script';
+import { SeasonStats } from '@/util/db_bootstrapping/updateStats.script';
 import OwnerPoolSummary from '@/components/OwnerPoolSummary';
 import { Prisma } from '@prisma/client';
 import getRanks from '@/util/getRanks';

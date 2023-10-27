@@ -1,6 +1,6 @@
 import prisma from "@/db/prisma"
-import { APITeam } from "@/util/dataAPI/loadTeams.script"
-import { APIMeta } from "@/util/dataAPI/meta"
+import { APITeam } from "@/util/db_bootstrapping/loadTeams.script"
+import { APIMeta } from "@/util/db_bootstrapping/meta"
 import { delay } from "@/util/delay"
 import { env } from "process"
 import { config } from 'dotenv';
