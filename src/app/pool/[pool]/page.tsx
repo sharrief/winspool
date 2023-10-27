@@ -3,10 +3,11 @@ import prisma from '@/db/prisma';
 import { ZodError, z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import messages from '@/util/messages';
-import { SeasonStats } from '@/util/db_bootstrapping/updateStats.script';
+import { SeasonStats } from '@/util/db_bootstrapping/aggregateTeamSeasonStats.script';
 import OwnerPoolSummary from '@/components/OwnerPoolSummary';
 import { Prisma } from '@prisma/client';
 import getRanks from '@/util/getRanks';
+import { Owner } from '@/util/db_bootstrapping/entities';
 
 /**
  *
@@ -14,7 +15,7 @@ import getRanks from '@/util/getRanks';
  * @param _season The season stats to get
  * @returns The owner or error
  */
-export async function getPoolOwnersAndTeams(_pool: string,  _username = '') {
+export async function getPoolOwnersAndTeams(_pool: string, _username = '') {
   try {
     /** The _pool must be a string */
     const validString = z.string();
@@ -28,19 +29,19 @@ export async function getPoolOwnersAndTeams(_pool: string,  _username = '') {
     const pool = await prisma.winsPool.findUniqueOrThrow({
       where: { name: poolName },
       include: {
-        owners: username ? { where: { username } }: true
+        owners: username ? { where: { username } } : true
       },
     });
 
     /** Find the teams picked by the owner */
     const draft = await prisma.seasonDraft.findMany({
       where: { season: pool.season, ownerId: { in: pool?.owners.map(({ id }) => id) } },
-      include: { owner: true, teams: { include: { teamSeasonStats: { where: { season: pool.season }}}} }
+      include: { owner: true, teams: { include: { teamSeasonStats: { where: { season: pool.season } } } } }
     });
-    
+
     /** Aggregate owner stats and teams */
     const owners: (
-      Prisma.OwnerGetPayload<{}> & SeasonStats
+      Owner & SeasonStats
       & { teams: ({ id: number, name: string, fullName: string } & SeasonStats)[] }
     )[] = [];
     for (const lineup of draft) {
@@ -53,7 +54,7 @@ export async function getPoolOwnersAndTeams(_pool: string,  _username = '') {
         const { wins = 0, losses = 0, ties = 0 } = stats;
         const T = { id, name, fullName, wins, losses, ties };
         Ts.push(T)
-        w+=wins; l+=losses; t+=ties;
+        w += wins; l += losses; t += ties;
       }
       const { owner: { id, name, username } } = lineup;
       const O = { id, name, username, wins: w, losses: l, ties: t };

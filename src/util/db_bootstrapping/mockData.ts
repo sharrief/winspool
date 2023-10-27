@@ -1,23 +1,23 @@
 import { APIGame } from "@/util/db_bootstrapping/apiQueries"
 import { APITeam } from "@/util/db_bootstrapping/loadTeams"
-import { Prisma } from "@prisma/client"
+import { Game, Team } from "@/util/db_bootstrapping/entities"
 
 export const mockAPITeam: APITeam = {
-  id: 1, abbreviation: 'ABC', 
+  id: 1, abbreviation: 'ABC',
   name: 'Alphabets', full_name: 'English Alphabets',
   city: 'English', conference: 'Main', division: 'Half'
 }
-export const mockDBTeam: Prisma.TeamGetPayload<{}> = {
+export const mockDBTeam: Team = {
   id: mockAPITeam.id, abbreviation: mockAPITeam.abbreviation,
   name: mockAPITeam.name, fullName: mockAPITeam.full_name,
   city: mockAPITeam.city, conference: mockAPITeam.conference, division: mockAPITeam.division
 }
 export const mockAPIGame: APIGame = {
   id: 1, date: '2018-1-1', home_team: { ...mockAPITeam }, visitor_team: { ...mockAPITeam },
-  home_team_score: 0, visitor_team_score: 0, 
-  season: 1, status: '', time: '', postseason: false, period: 1 
+  home_team_score: 0, visitor_team_score: 0,
+  season: 1, status: '', time: '', postseason: false, period: 1
 }
-export const mockDBGame: Prisma.GameGetPayload<{}> = {
+export const mockDBGame: Game = {
   apiId: mockAPIGame.id,
   id: mockAPIGame.id, date: new Date('2018-1-1'),
   homeTeamId: mockDBTeam.id, homeScore: mockAPIGame.home_team_score,
