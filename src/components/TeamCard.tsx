@@ -24,7 +24,7 @@ export default function TeamCard({
   name, image, theme,
   wins, losses, ties, score
 }: TeamCardProps) {
-  return (<div className="rounded-xl shadow-xl shadow-neutral-400" 
+  return (<div className="rounded-xl shadow-xl" 
   style={{ backgroundColor: theme.secondaryColor}}>
   <div 
     className="p-2 rounded-t-xl shadow-xl"
