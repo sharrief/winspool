@@ -3,11 +3,9 @@ import prisma from '@/db/prisma';
 import { ZodError, z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import messages from '@/util/messages';
-import { SeasonStats } from '@/util/db_bootstrapping/aggregateTeamSeasonStats.script';
 import OwnerPoolSummary from '@/components/OwnerPoolSummary';
-import { Prisma } from '@prisma/client';
 import getRanks from '@/util/getRanks';
-import { Owner } from '@/util/db_bootstrapping/entities';
+import { Owner, SeasonStats } from '@/db/dataTypes';
 
 /**
  *

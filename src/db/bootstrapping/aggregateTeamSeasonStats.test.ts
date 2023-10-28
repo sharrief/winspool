@@ -1,9 +1,9 @@
-import aggregateTeamSeasonStats from "@/util/db_bootstrapping/aggregateTeamSeasonStats"
-import { createStats, getGamesByTeamIds, getTeams } from "@/util/db_bootstrapping/dbQueries"
-import { mockDBGame, mockDBTeam } from "@/util/db_bootstrapping/mockData"
+import aggregateTeamSeasonStats from "@/db/bootstrapping/aggregateTeamSeasonStats"
+import { createStats, getGamesByTeamIds, getTeams } from "@/db/queries"
+import { mockDBGame, mockDBTeam } from "@/db/bootstrapping/mockData"
 
 // Arrange
-jest.mock('@/util/db_bootstrapping/dbQueries')
+jest.mock('@/db/queries')
 const mockedGetTeams = jest.mocked(getTeams)
 const mockedGetGamesByTeamIds = jest.mocked(getGamesByTeamIds)
 const mockedCreateStats = jest.mocked(createStats)

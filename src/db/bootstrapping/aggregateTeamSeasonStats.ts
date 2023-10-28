@@ -1,11 +1,5 @@
-import { createStats, getGamesByTeamIds, getTeams } from "@/util/db_bootstrapping/dbQueries";
-import { Game } from "@/util/db_bootstrapping/entities";
-
-export type SeasonStats = {
-  wins: number
-  losses: number
-  ties: number
-}
+import { createStats, getGamesByTeamIds, getTeams } from "@/db/queries";
+import { Game } from "@/db/dataTypes";
 
 /**
  * Loads the teams and games to aggregate the win/loss/tie stats

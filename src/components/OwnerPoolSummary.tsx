@@ -3,7 +3,7 @@ import React from 'react';
 import OwnerHeading from '@/components/OwnerHeading';
 import TeamCard from '@/components/TeamCard';
 import teamThemes, { TeamName } from '@/util/teamThemes';
-import { SeasonStats } from '@/util/db_bootstrapping/aggregateTeamSeasonStats.script';
+import { SeasonStats } from '@/db/bootstrapping/aggregateTeamSeasonStats.script';
 
 /** 
  * The props for the OwnerSeasonSummary

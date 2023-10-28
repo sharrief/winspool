@@ -1,15 +1,15 @@
-import convertGame from "@/util/db_bootstrapping/convertGame"
-import { mockAPIGame, mockDBGame } from "@/util/db_bootstrapping/mockData"
+import parseGame from "@/db/bootstrapping/parseGame"
+import { mockAPIGame, mockDBGame } from "@/db/bootstrapping/mockData"
 import sampleGames from './sampleGameData.json';
 
 describe('convertGame', () => {
   it('parses a valid mock game', () => {
-    const game = convertGame(mockAPIGame);
+    const game = parseGame(mockAPIGame);
     expect(game).toMatchObject(mockDBGame);
   });
   it('parses a sample game', () => {
     const { data: [sampleGame] } = sampleGames;
-    const game = convertGame(sampleGame);
+    const game = parseGame(sampleGame);
     expect(game).toMatchObject({
       apiId: sampleGame.id,
       date: new Date(sampleGame.date),
@@ -25,6 +25,6 @@ describe('convertGame', () => {
     },)
   })
   it('throws on invalid input', () => {
-    expect(() => convertGame({ ...mockAPIGame, id: '1' as any })).toThrow();
+    expect(() => parseGame({ ...mockAPIGame, id: '1' as any })).toThrow();
   })
 })

@@ -1,6 +1,5 @@
 import prisma from "@/db/prisma";
-import { Game, TeamStats } from "@/util/db_bootstrapping/entities";
-import { Prisma } from "@prisma/client";
+import { Game, TeamStats } from "@/db/dataTypes";
 
 export async function getGameCount() {
   return prisma.game.count();

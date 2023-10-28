@@ -1,5 +1,5 @@
-import { APIGame } from "@/util/db_bootstrapping/apiQueries";
-import { Game } from "@/util/db_bootstrapping/entities";
+import { APIGame } from "@/db/fetchGames";
+import { Game } from "@/db/dataTypes";
 import { z } from "zod";
 
 const validAPITeam = z.object({
@@ -26,7 +26,7 @@ const validAPIGame = z.object({
   visitor_team_score: z.number().int(),
 })
 
-export default function convertGame(_game: APIGame): Game {
+export default function parseGame(_game: APIGame): Game {
   const game = validAPIGame.parse(_game);
   return {
     ...game,
