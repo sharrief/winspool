@@ -1,5 +1,4 @@
-import { APIGame } from "@/db/fetchGames";
-import { Game } from "@/db/dataTypes";
+import { APIGame, Game } from "@/db/dataTypes";
 import { z } from "zod";
 
 const validAPITeam = z.object({

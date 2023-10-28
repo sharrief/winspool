@@ -1,9 +1,11 @@
 import loadLeagueData from "./load.leagueData";
 import loadTeamsIntoDB from "./load.teams";
-import loadGamesIntoDB from "./load.games";
+import loadSeasonIntoDB from "./load.season";
 import aggregateTeamSeasonStats from "./aggregateTeamSeasonStats";
 
 loadLeagueData();
 loadTeamsIntoDB();
-loadGamesIntoDB();
+loadSeasonIntoDB(2020);
+loadSeasonIntoDB(2021);
+loadSeasonIntoDB(2023);
 aggregateTeamSeasonStats();

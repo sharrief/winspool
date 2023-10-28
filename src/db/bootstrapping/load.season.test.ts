@@ -1,7 +1,7 @@
 import { fetchGames } from "@/db/fetchGames";
 import parseGame from "@/db/bootstrapping/parseGame";
 import { getGameCount, createGames } from "@/db/queries";
-import loadGamesIntoDB from "./load.games"
+import loadSeasonIntoDB from "./load.season"
 import { mockAPIGame } from "./mockData";
 
 // Arrange
@@ -22,7 +22,7 @@ describe('loadGamesIntoDB', () => {
     // Act
     mockedGetGameCount.mockResolvedValueOnce(1);
     // Assert
-    await expect(loadGamesIntoDB()).rejects.toThrowError('Games table not empty');
+    await expect(loadSeasonIntoDB(1)).rejects.toThrowError('Games table not empty');
   });
 
   it('saves games from multiple pages', async () => {
@@ -35,7 +35,7 @@ describe('loadGamesIntoDB', () => {
       yield [game2]
     })
     // Act
-    await loadGamesIntoDB();
+    await loadSeasonIntoDB(1);
     // Assert
     expect(createGames).toHaveBeenNthCalledWith(1, expect.arrayContaining([game1]))
     expect(createGames).toHaveBeenNthCalledWith(2, expect.arrayContaining([game2]))

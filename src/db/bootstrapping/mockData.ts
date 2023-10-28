@@ -1,6 +1,4 @@
-import { APIGame } from "@/db/fetchGames"
-import { APITeam } from "@/db/bootstrapping/load.teams"
-import { Game, Team } from "@/db/dataTypes"
+import { APIGame, APITeam, Game, Team } from "@/db/dataTypes"
 
 export const mockAPITeam: APITeam = {
   id: 1, abbreviation: 'ABC',

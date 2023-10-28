@@ -1,52 +1,62 @@
-import { config } from 'dotenv';
-import { env } from "process"
-import { APITeam } from "@/db/bootstrapping/load.teams"
+import env from "@/util/env"
 import logger from '@/util/logger';
+import { APIGame, APIMeta } from '@/db/dataTypes';
+import { z } from "zod";
 
-config();
-
-type APIMeta = {
-  total_pages: number,
-  current_page: number,
-  next_page: number,
-  per_page: number,
-  total_count: number,
+type GameDate = {
+  year: number;
+  month: number;
+  day: number;
 }
-
-export type APIGame = {
-  id: number
-  date: string
-  home_team_score: number
-  visitor_team_score: number
-  season: number
-  period: number,
-  status: string,
-  time: string,
-  postseason: boolean,
-  home_team: APITeam,
-  visitor_team: APITeam,
+/** Parses a GameDate */
+const gameDateValidator = z.object({
+  year: z.number().int().min(1970).max(3000),
+  month: z.number().int().min(1).max(12),
+  day: z.number().int().min(1).max(31),
+})
+/** Formats a GameDate into a YYYY-MM-DD */
+const formateDate = ((d: GameDate) => {
+  const date = gameDateValidator.parse(d);
+  return `${date.year}-${date.month}-${date.day}`
+})
+/** Creates query parameters from season year, from date and to date */
+const getQueryParams = (season?: number, from?: GameDate, to?: GameDate) => {
+  const params = [
+    ['season', season ? `${season}` : ''],
+    ['start_date', from ? formateDate(from) : ''],
+    ['end_date', to ? formateDate(to) : ''],
+  ]
+  return params.map(([key, value]) => value ? `&${key}=${value}` : '')
 }
-
 /**
  * Fetches pages of games from env.API_HOST/games
  * @param season The season to fetch games for
+ * @param from The date from which to fetch succeeding games
+ * @param to The date from which to fetch preceding games
  * @yields Arrays of games
  */
-export async function* fetchGames(season = 2023) {
+export async function* fetchGames(season: number, from?: GameDate, to?: GameDate) {
   if (!season) throw new Error('Season not provided to fetchGames')
   if (!env.API_HOST) throw new Error(`No API host provided: ${env.API_HOST}`);
-  logger.log(`Loading games from ${env.API_HOST}`);
+  /** Query parameters used to filter game search via API */
+  const params = getQueryParams(season, from, to);
+  /** Updated each loop with API call meta */
   let page = 1;
+  /** Updated each loop with API call meta */
   let total_pages = 100;
+  /** Counts number of fetch calls made */
   let fetchCount = 0;
-  let maxFetchCount = 100;
+  /** Fail safe to prevent infinite API calls */
+  const maxFetchCount = 100;
+  logger.log(`Loading games from ${env.API_HOST}`);
   do {
-    const res = await fetch(`${env.API_HOST}/games?seasons[]=${season}&page=${page}`);
-    fetchCount++;
+    const res = await fetch(`${env.API_HOST}/games?page=${page}${params}`);
     if (!res.ok) throw new Error('Could not fetch games: ' + res.statusText);
     const responseData = (await res.json()) as { data: APIGame[], meta: APIMeta };
+    yield responseData.data;
+
     page = responseData.meta.next_page;
     total_pages = responseData.meta.total_pages;
-    yield responseData.data;
+    fetchCount++;
   } while (page < total_pages && fetchCount < maxFetchCount);
 }
