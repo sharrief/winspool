@@ -24,8 +24,11 @@ type Story = StoryObj<typeof meta>;
 const owner: Story['args']['owner'] = {
   id: 1,
   name: 'John Smith',
-  wins: 7, ties: 5, losses: 6,
-}
+  wins: 7,
+  ties: 5,
+  losses: 6,
+};
+const rank = 1;
 const teamStats = { wins: 10, ties: 1, losses: 9 };
 const teams: Story['args']['teams'] = [
   {
@@ -52,10 +55,10 @@ const teams: Story['args']['teams'] = [
     fullName: 'Los Angeles Lakers',
     ...teamStats,
   },
-]
+];
 
 export const Basic: Story = {
   args: {
-    owner, teams,
+    owner, teams, rank,
   },
 };

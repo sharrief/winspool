@@ -1,7 +1,7 @@
-import loadLeagueData from "./load.leagueData";
-import loadTeamsIntoDB from "./load.teams";
-import loadSeasonIntoDB from "./load.season";
-import aggregateTeamSeasonStats from "./aggregateTeamSeasonStats";
+import loadLeagueData from './load.leagueData';
+import loadTeamsIntoDB from './load.teams';
+import loadSeasonIntoDB from './load.season';
+import aggregateTeamSeasonStats from './aggregateTeamSeasonStats';
 
 loadLeagueData();
 loadTeamsIntoDB();

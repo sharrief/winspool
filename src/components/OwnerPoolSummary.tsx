@@ -1,11 +1,10 @@
-
 import React from 'react';
 import OwnerHeading from '@/components/OwnerHeading';
 import TeamCard from '@/components/TeamCard';
 import teamThemes, { TeamName } from '@/util/teamThemes';
-import { SeasonStats } from '@/db/bootstrapping/aggregateTeamSeasonStats.script';
+import { SeasonStats } from '@/db/dataTypes';
 
-/** 
+/**
  * The props for the OwnerSeasonSummary
  */
 export interface OwnerPoolSummaryProps {
@@ -24,19 +23,21 @@ export interface OwnerPoolSummaryProps {
 /** The OwnerPage component */
 export default function OwnerPoolSummary(props: OwnerPoolSummaryProps) {
   const { owner, rank, teams } = props;
-  const { wins } = owner;
+  const { wins: ownerWins } = owner;
   return (
     <div>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-4 mb-2">
           <OwnerHeading
-            name={owner.name || 'Owner' + owner.id}
+            name={owner.name || `Owner${owner.id}`}
             place={rank}
-            score={wins}
+            score={ownerWins}
           />
         </div>
-        {teams.map(({ id, name, fullName, wins, losses, ties }) => (
-          <div className='col-span-2 lg:col-span-1' key={id}>
+        {teams.map(({
+          id, name, fullName, wins, losses, ties,
+        }) => (
+          <div className="col-span-2 lg:col-span-1" key={id}>
             <TeamCard
               name={fullName}
               image={`/images/${name.toLowerCase().split(' ').join('_')}.png`}

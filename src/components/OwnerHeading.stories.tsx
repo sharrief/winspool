@@ -24,6 +24,6 @@ export const Basic: Story = {
   args: {
     name: 'John',
     place: 1,
-    score: 15
+    score: 15,
   },
 };

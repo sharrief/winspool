@@ -1,21 +1,21 @@
-import { fetchGames } from "@/db/fetchGames";
-import parseGame from "@/db/bootstrapping/parseGame";
-import { getGameCount, createGames } from "@/db/queries";
-import loadSeasonIntoDB from "./load.season"
-import { mockAPIGame } from "./mockData";
+import fetchGames from '@/db/fetchGames';
+import parseGame from '@/db/bootstrapping/parseGame';
+import { getGameCount, createGames } from '@/db/queries';
+import loadSeasonIntoDB from './load.season';
+import { mockAPIGame } from './mockData';
 
 // Arrange
 jest.mock('@/db/queries');
 const mockedGetGameCount = jest.mocked(getGameCount);
 
-jest.mock('./parseGame')
+jest.mock('./parseGame');
 jest.mocked(parseGame).mockImplementation((a) => a as any);
 
 jest.mock('@/db/fetchGames');
-const mockFetchGames = jest.mocked(fetchGames)
+const mockFetchGames = jest.mocked(fetchGames);
 
-jest.mock('@/util/logger')
-jest.mock('@/util/delay')
+jest.mock('@/util/logger');
+jest.mock('@/util/delay');
 
 describe('loadGamesIntoDB', () => {
   it('throws if the games table is not empty', async () => {
@@ -30,15 +30,15 @@ describe('loadGamesIntoDB', () => {
     const game1 = { ...mockAPIGame };
     const game2 = { ...mockAPIGame, id: 2 };
     mockedGetGameCount.mockResolvedValueOnce(0);
-    mockFetchGames.mockImplementation(async function* () {
-      yield [game1]
-      yield [game2]
-    })
+    mockFetchGames.mockImplementation(async function* mockFetchGamePages() {
+      yield [game1];
+      yield [game2];
+    });
     // Act
     await loadSeasonIntoDB(1);
     // Assert
-    expect(createGames).toHaveBeenNthCalledWith(1, expect.arrayContaining([game1]))
-    expect(createGames).toHaveBeenNthCalledWith(2, expect.arrayContaining([game2]))
+    expect(createGames).toHaveBeenNthCalledWith(1, expect.arrayContaining([game1]));
+    expect(createGames).toHaveBeenNthCalledWith(2, expect.arrayContaining([game2]));
     expect(createGames).toHaveBeenCalledTimes(2);
-  })
-})
+  });
+});

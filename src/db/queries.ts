@@ -1,5 +1,5 @@
-import prisma from "@/db/prisma";
-import { Game, TeamStats } from "@/db/dataTypes";
+import prisma from '@/db/prisma';
+import { Game, TeamStats } from '@/db/dataTypes';
 
 export async function getGameCount() {
   return prisma.game.count();
@@ -14,9 +14,9 @@ export async function getGamesByTeamIds(ids: number[], season?: number) {
   return prisma.game.findMany({
     where: {
       OR: [{ homeTeamId: { in: ids } }, { awayTeamId: { in: ids } }],
-      ...whereSeason
-    }
-  })
+      ...whereSeason,
+    },
+  });
 }
 
 export async function getTeams() {
@@ -24,5 +24,5 @@ export async function getTeams() {
 }
 
 export async function createStats(stats: Omit<TeamStats, 'id'>[]) {
-  return await prisma.teamSeasonStats.createMany({ data: stats })
+  return prisma.teamSeasonStats.createMany({ data: stats });
 }

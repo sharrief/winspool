@@ -4,7 +4,7 @@ export type TeamTheme = {
   secondaryColor: string;
   primaryText: string;
   secondaryText: string;
-}
+};
 const teamThemes = {
   lakers: {
     primaryColor: 'white',
@@ -53,7 +53,7 @@ const teamThemes = {
     secondaryText: 'white',
   },
   spurs: {
-    primaryColor: 'white', 
+    primaryColor: 'white',
     secondaryColor: 'rgb(46,41,36)',
     // secondaryColor: 'rgb(141,142,142)',
     primaryText: 'white',

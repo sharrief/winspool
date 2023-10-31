@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
-import { env } from "process"
+import { env } from 'process';
+
 config();
 export default env;

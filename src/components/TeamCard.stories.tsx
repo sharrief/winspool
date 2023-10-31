@@ -1,36 +1,36 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TeamCard from './TeamCard';
 import teamThemes from '../util/teamThemes';
-import lakersLogo from '../../public/images/lakers.png'
-import blazersLogo from '../../public/images/trail_blazers.png'
-import cavaliersLogo from '../../public/images/cavaliers.png'
-import magicLogo from '../../public/images/magic.png'
-import thunderLogo from '../../public/images/thunder.png'
-import sixersLogo from '../../public/images/76ers.png'
-import netsLogo from '../../public/images/nets.png'
-import spursLogo from '../../public/images/spurs.png'
-import hornetsLogo from '../../public/images/hornets.png'
-import knicksLogo from '../../public/images/knicks.png'
-import kingsLogo from '../../public/images/kings.png'
-import clippersLogo from '../../public/images/clippers.png'
-import raptorsLogo from '../../public/images/raptors.png'
-import mavericksLogo from '../../public/images/mavericks.png'
-import timberwolvesLogo from '../../public/images/timberwolves.png'
-import nuggetsLogo from '../../public/images/nuggets.png'
-import jazzLogo from '../../public/images/jazz.png'
-import pelicansLogo from '../../public/images/pelicans.png'
-import sunsLogo from '../../public/images/suns.png'
-import bullsLogo from '../../public/images/bulls.png'
-import wizardsLogo from '../../public/images/wizards.png'
-import grizzliesLogo from '../../public/images/grizzlies.png'
-import bucksLogo from '../../public/images/bucks.png'
-import warriorsLogo from '../../public/images/warriors.png'
-import heatLogo from '../../public/images/heat.png'
-import pistonsLogo from '../../public/images/pistons.png'
-import rocketsLogo from '../../public/images/rockets.png'
-import celticsLogo from '../../public/images/celtics.png'
-import pacersLogo from '../../public/images/pacers.png'
-import hawksLogo from '../../public/images/hawks.png'
+import lakersLogo from '../../public/images/lakers.png';
+import blazersLogo from '../../public/images/trail_blazers.png';
+import cavaliersLogo from '../../public/images/cavaliers.png';
+import magicLogo from '../../public/images/magic.png';
+import thunderLogo from '../../public/images/thunder.png';
+import sixersLogo from '../../public/images/76ers.png';
+import netsLogo from '../../public/images/nets.png';
+import spursLogo from '../../public/images/spurs.png';
+import hornetsLogo from '../../public/images/hornets.png';
+import knicksLogo from '../../public/images/knicks.png';
+import kingsLogo from '../../public/images/kings.png';
+import clippersLogo from '../../public/images/clippers.png';
+import raptorsLogo from '../../public/images/raptors.png';
+import mavericksLogo from '../../public/images/mavericks.png';
+import timberwolvesLogo from '../../public/images/timberwolves.png';
+import nuggetsLogo from '../../public/images/nuggets.png';
+import jazzLogo from '../../public/images/jazz.png';
+import pelicansLogo from '../../public/images/pelicans.png';
+import sunsLogo from '../../public/images/suns.png';
+import bullsLogo from '../../public/images/bulls.png';
+import wizardsLogo from '../../public/images/wizards.png';
+import grizzliesLogo from '../../public/images/grizzlies.png';
+import bucksLogo from '../../public/images/bucks.png';
+import warriorsLogo from '../../public/images/warriors.png';
+import heatLogo from '../../public/images/heat.png';
+import pistonsLogo from '../../public/images/pistons.png';
+import rocketsLogo from '../../public/images/rockets.png';
+import celticsLogo from '../../public/images/celtics.png';
+import pacersLogo from '../../public/images/pacers.png';
+import hawksLogo from '../../public/images/hawks.png';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -56,12 +56,12 @@ const stats = {
   wins: 5,
   losses: 6,
   ties: 0,
-}
+};
 export const TieGames: Story = {
   args: {
     name: 'Los Angeles Lakers',
     image: lakersLogo,
-    theme: teamThemes['lakers'],
+    theme: teamThemes.lakers,
     ...stats,
     ties: 5,
   },
@@ -70,7 +70,7 @@ export const Lakers: Story = {
   args: {
     name: 'Los Angeles Lakers',
     image: lakersLogo,
-    theme: teamThemes['lakers'],
+    theme: teamThemes.lakers,
     ...stats,
   },
 };
@@ -78,7 +78,7 @@ export const TrailBlazers: Story = {
   args: {
     name: 'Portland Trail Blazers',
     image: blazersLogo,
-    theme: teamThemes['trail_blazers'],
+    theme: teamThemes.trail_blazers,
     ...stats,
   },
 };
@@ -86,7 +86,7 @@ export const Cavaliers: Story = {
   args: {
     name: 'Cleveland Cavaliers',
     image: cavaliersLogo,
-    theme: teamThemes['cavaliers'],
+    theme: teamThemes.cavaliers,
     ...stats,
   },
 };
@@ -94,7 +94,7 @@ export const Magic: Story = {
   args: {
     name: 'Orlando Magic',
     image: magicLogo,
-    theme: teamThemes['magic'],
+    theme: teamThemes.magic,
     ...stats,
   },
 };
@@ -102,7 +102,7 @@ export const Thunder: Story = {
   args: {
     name: 'Oklahoma City Thunder',
     image: thunderLogo,
-    theme: teamThemes['thunder'],
+    theme: teamThemes.thunder,
     ...stats,
   },
 };
@@ -118,7 +118,7 @@ export const Nets: Story = {
   args: {
     name: 'Brooklyn Nets',
     image: netsLogo,
-    theme: teamThemes['nets'],
+    theme: teamThemes.nets,
     ...stats,
   },
 };
@@ -126,7 +126,7 @@ export const Spurs: Story = {
   args: {
     name: 'San Antonio Spurs',
     image: spursLogo,
-    theme: teamThemes['spurs'],
+    theme: teamThemes.spurs,
     ...stats,
   },
 };
@@ -134,7 +134,7 @@ export const Hornets: Story = {
   args: {
     name: 'Charlotte Hornets',
     image: hornetsLogo,
-    theme: teamThemes['hornets'],
+    theme: teamThemes.hornets,
     ...stats,
   },
 };
@@ -142,7 +142,7 @@ export const Knicks: Story = {
   args: {
     name: 'New York Knicks',
     image: knicksLogo,
-    theme: teamThemes['knicks'],
+    theme: teamThemes.knicks,
     ...stats,
   },
 };
@@ -150,7 +150,7 @@ export const Kings: Story = {
   args: {
     name: 'Sacramento Kings',
     image: kingsLogo,
-    theme: teamThemes['kings'],
+    theme: teamThemes.kings,
     ...stats,
   },
 };
@@ -158,7 +158,7 @@ export const Clippers: Story = {
   args: {
     name: 'Los Angeles Clippers',
     image: clippersLogo,
-    theme: teamThemes['clippers'],
+    theme: teamThemes.clippers,
     ...stats,
   },
 };
@@ -166,7 +166,7 @@ export const Raptors: Story = {
   args: {
     name: 'Toronto Raptors',
     image: raptorsLogo,
-    theme: teamThemes['raptors'],
+    theme: teamThemes.raptors,
     ...stats,
   },
 };
@@ -174,7 +174,7 @@ export const Mavericks: Story = {
   args: {
     name: 'Dallas Mavericks',
     image: mavericksLogo,
-    theme: teamThemes['mavericks'],
+    theme: teamThemes.mavericks,
     ...stats,
   },
 };
@@ -182,7 +182,7 @@ export const Timberwolves: Story = {
   args: {
     name: 'Minnesota Timberwolves',
     image: timberwolvesLogo,
-    theme: teamThemes['timberwolves'],
+    theme: teamThemes.timberwolves,
     ...stats,
   },
 };
@@ -190,7 +190,7 @@ export const Nuggets: Story = {
   args: {
     name: 'Denver Nuggets',
     image: nuggetsLogo,
-    theme: teamThemes['nuggets'],
+    theme: teamThemes.nuggets,
     ...stats,
   },
 };
@@ -198,7 +198,7 @@ export const Jazz: Story = {
   args: {
     name: 'Utah Jazz',
     image: jazzLogo,
-    theme: teamThemes['jazz'],
+    theme: teamThemes.jazz,
     ...stats,
   },
 };
@@ -206,7 +206,7 @@ export const Pelicans: Story = {
   args: {
     name: 'New Orleans Pelicans',
     image: pelicansLogo,
-    theme: teamThemes['pelicans'],
+    theme: teamThemes.pelicans,
     ...stats,
   },
 };
@@ -214,7 +214,7 @@ export const Suns: Story = {
   args: {
     name: 'Phoenix Suns',
     image: sunsLogo,
-    theme: teamThemes['suns'],
+    theme: teamThemes.suns,
     ...stats,
   },
 };
@@ -222,7 +222,7 @@ export const Bulls: Story = {
   args: {
     name: 'Chicago Bulls',
     image: bullsLogo,
-    theme: teamThemes['bulls'],
+    theme: teamThemes.bulls,
     ...stats,
   },
 };
@@ -230,7 +230,7 @@ export const Wizards: Story = {
   args: {
     name: 'Washington Wizards',
     image: wizardsLogo,
-    theme: teamThemes['wizards'],
+    theme: teamThemes.wizards,
     ...stats,
   },
 };
@@ -238,7 +238,7 @@ export const Grizzlies: Story = {
   args: {
     name: 'Memphis Grizzlies',
     image: grizzliesLogo,
-    theme: teamThemes['grizzlies'],
+    theme: teamThemes.grizzlies,
     ...stats,
   },
 };
@@ -246,7 +246,7 @@ export const Bucks: Story = {
   args: {
     name: 'Milwaukee Bucks',
     image: bucksLogo,
-    theme: teamThemes['bucks'],
+    theme: teamThemes.bucks,
     ...stats,
   },
 };
@@ -254,7 +254,7 @@ export const Warriors: Story = {
   args: {
     name: 'Golden State Warrios',
     image: warriorsLogo,
-    theme: teamThemes['warriors'],
+    theme: teamThemes.warriors,
     ...stats,
   },
 };
@@ -262,7 +262,7 @@ export const Heat: Story = {
   args: {
     name: 'Miami Heat',
     image: heatLogo,
-    theme: teamThemes['heat'],
+    theme: teamThemes.heat,
     ...stats,
   },
 };
@@ -270,7 +270,7 @@ export const Pistons: Story = {
   args: {
     name: 'Detroit Pistons',
     image: pistonsLogo,
-    theme: teamThemes['pistons'],
+    theme: teamThemes.pistons,
     ...stats,
   },
 };
@@ -278,7 +278,7 @@ export const Rockets: Story = {
   args: {
     name: 'Houston Rockets',
     image: rocketsLogo,
-    theme: teamThemes['rockets'],
+    theme: teamThemes.rockets,
     ...stats,
   },
 };
@@ -286,7 +286,7 @@ export const Celtics: Story = {
   args: {
     name: 'Boston Celtics',
     image: celticsLogo,
-    theme: teamThemes['celtics'],
+    theme: teamThemes.celtics,
     ...stats,
   },
 };
@@ -294,7 +294,7 @@ export const Pacers: Story = {
   args: {
     name: 'Indiana Pacers',
     image: pacersLogo,
-    theme: teamThemes['pacers'],
+    theme: teamThemes.pacers,
     ...stats,
   },
 };
@@ -302,7 +302,7 @@ export const Hawks: Story = {
   args: {
     name: 'Atlanta Hawks',
     image: hawksLogo,
-    theme: teamThemes['hawks'],
+    theme: teamThemes.hawks,
     ...stats,
   },
 };

@@ -1,5 +1,5 @@
-import { APIGame, Game } from "@/db/dataTypes";
-import { z } from "zod";
+import { APIGame, Game } from '@/db/dataTypes';
+import { z } from 'zod';
 
 const validAPITeam = z.object({
   id: z.number().int(),
@@ -23,7 +23,7 @@ const validAPIGame = z.object({
   postseason: z.boolean(),
   home_team_score: z.number().int(),
   visitor_team_score: z.number().int(),
-})
+});
 
 export default function parseGame(_game: APIGame): Game {
   const game = validAPIGame.parse(_game);
@@ -36,5 +36,5 @@ export default function parseGame(_game: APIGame): Game {
     awayTeamId: game.visitor_team.id,
     homeScore: game.home_team_score,
     awayScore: game.visitor_team_score,
-  }
+  };
 }

@@ -1,9 +1,16 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "plugin:storybook/recommended",
-    "airbnb-typescript",
     "airbnb", 
-    "airbnb/hooks"
-  ]
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:storybook/recommended"
+  ],
+  "rules": {
+    "no-restricted-syntax": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["jest"]
 }

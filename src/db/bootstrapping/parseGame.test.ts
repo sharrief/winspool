@@ -1,5 +1,5 @@
-import parseGame from "@/db/bootstrapping/parseGame"
-import { mockAPIGame, mockDBGame } from "@/db/bootstrapping/mockData"
+import parseGame from '@/db/bootstrapping/parseGame';
+import { mockAPIGame, mockDBGame } from '@/db/bootstrapping/mockData';
 import sampleGames from './sampleGameData.json';
 
 describe('convertGame', () => {
@@ -21,10 +21,10 @@ describe('convertGame', () => {
       status: sampleGame.status,
       time: sampleGame.time,
       awayTeamId: sampleGame.visitor_team.id,
-      awayScore: sampleGame.visitor_team_score
-    },)
-  })
+      awayScore: sampleGame.visitor_team_score,
+    });
+  });
   it('throws on invalid input', () => {
     expect(() => parseGame({ ...mockAPIGame, id: '1' as any })).toThrow();
-  })
-})
+  });
+});
