@@ -1,8 +1,8 @@
 /* eslint-disable no-await-in-loop */
-import env from '@/util/env';
 import logger from '@/util/logger';
 import { APIGame, APIMeta } from '@/db/dataTypes';
 import { z } from 'zod';
+import Options from '@/util/options';
 
 type GameDate = {
   year: number;
@@ -30,7 +30,7 @@ const getQueryParams = (season?: number, from?: GameDate, to?: GameDate) => {
   return params.map(([key, value]) => (value ? `&${key}=${value}` : ''));
 };
 /**
- * Fetches pages of games from env.API_HOST/games
+ * Fetches pages of games from Options.API_HOST/games
  * @param season The season to fetch games for
  * @param from The date from which to fetch succeeding games
  * @param to The date from which to fetch preceding games
@@ -38,7 +38,7 @@ const getQueryParams = (season?: number, from?: GameDate, to?: GameDate) => {
  */
 export default async function* fetchGames(season: number, from?: GameDate, to?: GameDate) {
   if (!season) throw new Error('Season not provided to fetchGames');
-  if (!env.API_HOST) throw new Error(`No API host provided: ${env.API_HOST}`);
+  if (!Options.API_HOST) throw new Error(`No API host provided: ${Options.API_HOST}`);
   /** Query parameters used to filter game search via API */
   const params = getQueryParams(season, from, to);
   /** Updated each loop with API call meta */
@@ -49,10 +49,10 @@ export default async function* fetchGames(season: number, from?: GameDate, to?: 
   let fetchCount = 0;
   /** Fail safe to prevent infinite API calls */
   const maxFetchCount = 100;
-  logger.log(`Loading games from ${env.API_HOST}`);
+  logger.log(`Loading games from ${Options.API_HOST}`);
   do {
     // Intentional await-in-loop usage to fetch page by page
-    const res = await fetch(`${env.API_HOST}/games?page=${page}${params}`);
+    const res = await fetch(`${Options.API_HOST}/games?page=${page}${params}`);
     if (!res.ok) throw new Error(`Could not fetch games: ${res.statusText}`);
     const responseData = (await res.json()) as { data: APIGame[], meta: APIMeta };
     yield responseData.data;

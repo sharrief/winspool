@@ -10,8 +10,6 @@ declare global {
       PGUSER: string
       PGPASSWORD: string
       PGDATABASE: string
-
-      API_HOST: string;
     }
   }
 }
