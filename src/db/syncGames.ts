@@ -6,6 +6,14 @@ import {
 import { getNowInMs, getYesterdayInMs } from '@/util/date';
 import Options from '@/util/options';
 
+/**
+ * Will update games using latest data from the API,
+ * but only when an update is not in process,
+ * or when the most recent update was older than
+ * the configured time between updates
+ * @param season The season to sync games from
+ * @returns Whether the sync was performed
+ */
 export default async function SyncGames(season: number) {
   /* Don't start sync if one is in progress */
   const syncInProgress = await getSyncInProgress();
