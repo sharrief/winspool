@@ -1,31 +1,22 @@
 /* eslint-disable no-await-in-loop */
 import logger from '@/util/logger';
 import { APIGame, APIMeta } from '@/db/dataTypes';
-import { z } from 'zod';
 import Options from '@/util/options';
 
-type GameDate = {
-  year: number;
-  month: number;
-  day: number;
-};
-/** Parses a GameDate */
-const gameDateValidator = z.object({
-  year: z.number().int().min(1970).max(3000),
-  month: z.number().int().min(1).max(12),
-  day: z.number().int().min(1).max(31),
-});
 /** Formats a GameDate into a YYYY-MM-DD */
-const formateDate = ((d: GameDate) => {
-  const date = gameDateValidator.parse(d);
-  return `${date.year}-${date.month}-${date.day}`;
+const formateDate = ((time: number) => {
+  const d = new Date(time);
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1; // getMonth is 0-indexed
+  const day = d.getDate();
+  return `${year}-${month}-${day}`;
 });
-/** Creates query parameters from season year, from date and to date */
-const getQueryParams = (season?: number, from?: GameDate, to?: GameDate) => {
+/** Creates query parameters from season year, and start/end times */
+const getQueryParams = (season?: number, startTime?: number, endTime?: number) => {
   const params = [
     ['season', season ? `${season}` : ''],
-    ['start_date', from ? formateDate(from) : ''],
-    ['end_date', to ? formateDate(to) : ''],
+    ['start_date', startTime ? formateDate(startTime) : ''],
+    ['end_date', endTime ? formateDate(endTime) : ''],
   ];
   return params.map(([key, value]) => (value ? `&${key}=${value}` : ''));
 };
@@ -36,11 +27,11 @@ const getQueryParams = (season?: number, from?: GameDate, to?: GameDate) => {
  * @param to The date from which to fetch preceding games
  * @yields Arrays of games
  */
-export default async function* fetchGames(season: number, from?: GameDate, to?: GameDate) {
+export default async function* fetchGames(season: number, startTime?: number, endTime?: number) {
   if (!season) throw new Error('Season not provided to fetchGames');
   if (!Options.API_HOST) throw new Error(`No API host provided: ${Options.API_HOST}`);
   /** Query parameters used to filter game search via API */
-  const params = getQueryParams(season, from, to);
+  const params = getQueryParams(season, startTime, endTime);
   /** Updated each loop with API call meta */
   let page = 1;
   /** Updated each loop with API call meta */

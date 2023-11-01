@@ -21,12 +21,10 @@ describe('fetchGames', () => {
   // ! This test makes a fetch call and does not mock fetch
   it.skip('fetches games between a set of dates', async () => {
     // Arrange
-    const startDate = { year: 2022, month: 10, day: 1 };
-    const endDate = { year: 2022, month: 10, day: 30 };
-    const gameGenerator = fetchGames(2022, startDate, endDate);
+    const startDate = new Date('2022-10-1');
+    const endDate = new Date('2022-10-30');
+    const gameGenerator = fetchGames(2022, startDate.valueOf(), endDate.valueOf());
     /* All games should be inside this range */
-    const startDateValue = new Date(`${startDate.year}-${startDate.month}-${startDate.day}`).valueOf();
-    const endDateValue = new Date(`${endDate.year}-${endDate.month}-${endDate.day}`).valueOf();
 
     // Act
     /* Fetch the first page of games */
@@ -65,9 +63,13 @@ describe('fetchGames', () => {
     } = getFistAndLastGame(lastPageGames);
 
     // Assert
-    expect(new Date(firstPageEarliestGame.date).valueOf()).toBeGreaterThanOrEqual(startDateValue);
-    expect(new Date(fistPageLatestGame.date).valueOf()).toBeLessThanOrEqual(endDateValue);
-    expect(new Date(lastPageEarliestGame.date).valueOf()).toBeGreaterThanOrEqual(startDateValue);
-    expect(new Date(lastPageLatestGame.date).valueOf()).toBeLessThanOrEqual(endDateValue);
+    expect(new Date(firstPageEarliestGame.date).valueOf())
+      .toBeGreaterThanOrEqual(startDate.valueOf());
+    expect(new Date(fistPageLatestGame.date).valueOf())
+      .toBeLessThanOrEqual(endDate.valueOf());
+    expect(new Date(lastPageEarliestGame.date).valueOf())
+      .toBeGreaterThanOrEqual(startDate.valueOf());
+    expect(new Date(lastPageLatestGame.date).valueOf())
+      .toBeLessThanOrEqual(endDate.valueOf());
   });
 });

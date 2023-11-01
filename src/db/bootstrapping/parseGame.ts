@@ -36,5 +36,6 @@ export default function parseGame(_game: APIGame): Game {
     awayTeamId: game.visitor_team.id,
     homeScore: game.home_team_score,
     awayScore: game.visitor_team_score,
+    lastSync: null,
   };
 }

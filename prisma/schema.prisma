@@ -8,44 +8,54 @@ datasource db {
 }
 
 model Game {
-  id         Int      @id @default(autoincrement())
-  apiId      Int      @unique
-  date       DateTime @db.Timestamptz(6)
+  id         Int       @id @default(autoincrement())
+  apiId      Int       @unique
+  date       DateTime  @db.Timestamptz(6)
   homeScore  Int
   awayScore  Int
   season     Int
   period     Int
-  status     String   @db.VarChar(20)
-  time       String   @db.VarChar(256)
+  status     String    @db.VarChar(20)
+  time       String    @db.VarChar(256)
   postseason Boolean
   homeTeamId Int
   awayTeamId Int
-  awayTeam   Team     @relation("awayTeamRelation", fields: [awayTeamId], references: [id])
-  homeTeam   Team     @relation("homeTeamRelation", fields: [homeTeamId], references: [id])
+  awayTeam   Team      @relation("awayTeamRelation", fields: [awayTeamId], references: [id])
+  homeTeam   Team      @relation("homeTeamRelation", fields: [homeTeamId], references: [id])
+  lastSync   DateTime?
+}
+
+model GameSyncHistory {
+  id                 Int       @id @default(autoincrement())
+  dateFetchStarted   DateTime  @db.Timestamptz(6)
+  dateFetchEnded     DateTime? @db.Timestamptz(6)
+  latestDayFinalized DateTime? @db.Date()
+  status             String    @db.VarChar(256)
+  gamesUpdatedApiIds Int[]
 }
 
 model Owner {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(50)
-  username    String        @db.VarChar(50) @unique
+  username    String        @unique @db.VarChar(50)
   seasonDraft SeasonDraft[] @relation("draftOwnerRelation")
-  winsPool WinsPool[] @relation("poolOwnersRelation")
+  winsPool    WinsPool[]    @relation("poolOwnersRelation")
 }
 
 model TeamSeasonStats {
-  id       Int  @id @default(autoincrement())
-  season   Int
-  teamId   Int
-  wins     Int
-  losses   Int
-  ties     Int
-  score    Int
-  team     Team @relation("teamStatsRelation", fields: [teamId], references: [id])
+  id     Int  @id @default(autoincrement())
+  season Int
+  teamId Int
+  wins   Int
+  losses Int
+  ties   Int
+  score  Int
+  team   Team @relation("teamStatsRelation", fields: [teamId], references: [id])
 }
 
 model WinsPool {
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(50) @unique
+  id     Int     @id @default(autoincrement())
+  name   String  @unique @db.VarChar(50)
   season Int
   owners Owner[] @relation("poolOwnersRelation")
 }
@@ -65,7 +75,7 @@ model Team {
   conference      String            @db.VarChar(30)
   division        String            @db.VarChar(30)
   fullName        String            @db.VarChar(50)
-  name            String            @db.VarChar(30) @unique
+  name            String            @unique @db.VarChar(30)
   awayGames       Game[]            @relation("awayTeamRelation")
   homeGames       Game[]            @relation("homeTeamRelation")
   teamSeasonStats TeamSeasonStats[] @relation("teamStatsRelation")

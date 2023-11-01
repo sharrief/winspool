@@ -46,4 +46,5 @@ export const mockDBGame: Game = {
   time: mockAPIGame.time,
   postseason: mockAPIGame.postseason,
   period: mockAPIGame.period,
+  lastSync: null,
 };
