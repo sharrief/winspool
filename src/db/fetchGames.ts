@@ -43,7 +43,13 @@ export default async function* fetchGames(season: number, startTime?: number, en
   logger.log(`Loading games from ${Options.API_HOST}`);
   do {
     // Intentional await-in-loop usage to fetch page by page
-    const res = await fetch(`${Options.API_HOST}/games?page=${page}${params}`);
+    const res = await fetch(
+      `${Options.API_HOST}/games?page=${page}${params}`,
+      /** NextJS will cache the fetched data for 10 minutes
+       * as current API says data may be at least 10 minutes delayed
+       */
+      { next: { revalidate: Options.MINUTES_BETWEEN_SYNCS * 60 } },
+    );
     if (!res.ok) throw new Error(`Could not fetch games: ${res.statusText}`);
     const responseData = (await res.json()) as { data: APIGame[], meta: APIMeta };
     yield responseData.data;
