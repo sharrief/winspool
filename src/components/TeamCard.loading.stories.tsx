@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import OwnerHeading from './OwnerHeading';
+import TeamCard from './TeamCard.loading';
+import teamThemes from '../util/teamThemes';
+import lakersLogo from '../../public/images/lakers.png';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: 'Owner heading',
-  component: OwnerHeading,
+  title: 'Team card loading',
+  component: TeamCard,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'centered',
@@ -14,16 +16,24 @@ const meta = {
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
   },
-} satisfies Meta<typeof OwnerHeading>;
+} satisfies Meta<typeof TeamCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Basic: Story = {
+const stats = {
+  score: 15,
+  wins: 5,
+  losses: 6,
+  ties: 0,
+};
+
+export const Lakers: Story = {
   args: {
-    name: 'John',
-    place: 1,
-    score: 15,
+    name: 'Los Angeles Lakers',
+    image: lakersLogo,
+    theme: teamThemes.lakers,
+    ...stats,
   },
 };
