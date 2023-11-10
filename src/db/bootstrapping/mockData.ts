@@ -28,7 +28,7 @@ export const mockAPIGame: APIGame = {
   home_team_score: 0,
   visitor_team_score: 0,
   season: 1,
-  status: '',
+  status: 'Final',
   time: '',
   postseason: false,
   period: 1,
