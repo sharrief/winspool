@@ -23,7 +23,7 @@ export default async function SyncGames(season: number) {
 
   /* Don't start sync if not enough time has
   passed since last sync */
-  const lastSyncTime = await getLastSyncTime();
+  const lastSyncTime = await getLastSyncTime(season);
   const syncDelay = (Options.MINUTES_BETWEEN_SYNCS * 1000);
   const now = getNowInMs();
   if (lastSyncTime && lastSyncTime + syncDelay > now) return false;

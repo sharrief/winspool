@@ -6,7 +6,7 @@ import { Game } from '@/db/dataTypes';
  * @param teamCount The number of teams in each season
  * @returns Map of seasons to teamId-indexed arrays of team stats
  */
-export default function getStatsBySeason(games: Game[], teamCount: number) {
+export default function aggregateStatsBySeason(games: Game[], teamCount: number) {
   /** Each seasons array is indexed by the 1-based teamId */
   const statsBySeason = new Map<number, { wins: number, losses: number }[]>();
   for (const game of games) {

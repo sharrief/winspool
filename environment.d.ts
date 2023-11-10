@@ -10,6 +10,8 @@ declare global {
       PGUSER: string
       PGPASSWORD: string
       PGDATABASE: string
+
+      WEB_HOST: string
     }
   }
 }

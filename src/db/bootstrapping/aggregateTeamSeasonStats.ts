@@ -1,5 +1,5 @@
+import aggregateStatsBySeason from '@/util/aggregateStatsBySeason';
 import { createStats, getGamesByTeamIds, getTeams } from '@/db/queries';
-import getStatsBySeason from '@/util/getStatsBySeason';
 
 /**
  * Loads the teams and games to aggregate the win/loss/tie stats
@@ -11,7 +11,7 @@ import getStatsBySeason from '@/util/getStatsBySeason';
 export default async function aggregateTeamSeasonStats() {
   const teamsIds = await getTeams();
   const games = await getGamesByTeamIds(teamsIds.map(({ id }) => id));
-  const statsBySeason = getStatsBySeason(games, teamsIds.length);
+  const statsBySeason = aggregateStatsBySeason(games, teamsIds.length);
   await Promise.all([...statsBySeason].map(async ([season, stats]) => {
     const [, ...teams] = stats;
     await createStats(teams

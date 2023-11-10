@@ -2,6 +2,7 @@
 import logger from '@/util/logger';
 import { APIGame, APIMeta } from '@/db/dataTypes';
 import Options from '@/util/options';
+import delay from '@/util/delay';
 
 /** Formats a GameDate into a YYYY-MM-DD */
 const formateDate = ((time: number) => {
@@ -17,6 +18,7 @@ const getQueryParams = (season?: number, startTime?: number, endTime?: number) =
     ['season', season ? `${season}` : ''],
     ['start_date', startTime ? formateDate(startTime) : ''],
     ['end_date', endTime ? formateDate(endTime) : ''],
+    ['per_page', Options.PAGE_SIZE],
   ];
   return params.map(([key, value]) => (value ? `&${key}=${value}` : ''));
 };
@@ -43,6 +45,7 @@ export default async function* fetchGames(season: number, startTime?: number, en
   logger.log(`Loading games from ${Options.API_HOST}`);
   do {
     // Intentional await-in-loop usage to fetch page by page
+    await delay(Options.SECONDS_BETWEEN_FETCH * 1000);
     const res = await fetch(
       `${Options.API_HOST}/games?page=${page}${params}`,
       /** NextJS will cache the fetched data for 10 minutes
@@ -50,11 +53,12 @@ export default async function* fetchGames(season: number, startTime?: number, en
        */
       { next: { revalidate: Options.MINUTES_BETWEEN_SYNCS * 60 } },
     );
+    logger.log(`Fetched page ${page} of ${totalPages}`);
     if (!res.ok) throw new Error(`Could not fetch games: ${res.statusText}`);
     const responseData = (await res.json()) as { data: APIGame[], meta: APIMeta };
     yield responseData.data;
 
-    page = responseData.meta.next_page;
+    page = responseData.meta.next_page || totalPages;
     totalPages = responseData.meta.total_pages;
     fetchCount += 1;
   } while (page < totalPages && fetchCount < maxFetchCount);
