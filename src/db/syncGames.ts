@@ -1,10 +1,12 @@
 import parseGame from '@/db/bootstrapping/parseGame';
 import fetchGames from '@/db/fetchGames';
 import {
+  completeGameSync,
   getLastSyncTime, getSyncInProgress, startGameSync, updateGames,
 } from '@/db/queries';
 import { getNowInMs, getYesterdayInMs } from '@/util/date';
 import Options from '@/util/options';
+import logger from '@/util/logger';
 
 /**
  * Will update games using latest data from the API,
@@ -27,18 +29,27 @@ export default async function SyncGames(season: number) {
   if (lastSyncTime && lastSyncTime + syncDelay > now) return false;
 
   /* Init a sync so subsequent calls during sync don't duplicate fetch calls */
-  await startGameSync(now);
+  const syncItem = await startGameSync(now);
   /* Sync games from lastSync or yesterday to today */
   const yesterday = getYesterdayInMs();
   const startTime = (
     lastSyncTime
     && lastSyncTime < yesterday)
     ? lastSyncTime : yesterday;
-  const gamePageGenerator = fetchGames(season, startTime, now);
-  for await (const page of gamePageGenerator) {
-    /* Update games in the DB */
-    const games = page.map((g) => parseGame(g));
-    await updateGames(games);
+  const gameIds: number[] = [];
+  try {
+    const gamePageGenerator = fetchGames(season, startTime, now);
+    for await (const page of gamePageGenerator) {
+      /* Update games in the DB */
+      const games = page.map((g) => {
+        gameIds.push(g.id);
+        return parseGame(g);
+      });
+      await updateGames(games);
+    }
+  } catch (e: unknown) {
+    logger.error(e instanceof Error ? e.message : e as string);
   }
+  await completeGameSync(syncItem.id, getNowInMs(), gameIds);
   return true;
 }

@@ -19,7 +19,7 @@ const validAPIGame = z.object({
   season: z.number(),
   period: z.number().int(),
   status: z.string(),
-  time: z.string(),
+  time: z.string().nullable(),
   postseason: z.boolean(),
   home_team_score: z.number().int(),
   visitor_team_score: z.number().int(),
@@ -29,6 +29,7 @@ export default function parseGame(_game: APIGame): Game {
   const game = validAPIGame.parse(_game);
   return {
     ...game,
+    time: _game.time ?? '',
     apiId: game.id,
     date: new Date(game.date),
     /** DB stores the teams as fk references */

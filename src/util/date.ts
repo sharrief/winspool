@@ -4,6 +4,6 @@ export function getNowInMs() {
 
 export function getYesterdayInMs() {
   const oneDayInMs = 1000 * 60 * 60 * 24;
-  const yesterday = new Date(exports.getToday().valueOf() - oneDayInMs);
+  const yesterday = new Date(getNowInMs().valueOf() - oneDayInMs);
   return yesterday.valueOf();
 }

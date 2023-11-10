@@ -68,6 +68,7 @@ export async function completeGameSync(id: number, time: number, gameIds: number
     data: {
       dateFetchEnded: new Date(time),
       gamesUpdatedApiIds: gameIds,
+      status: 'complete',
     },
   });
 }

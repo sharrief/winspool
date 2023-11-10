@@ -14,6 +14,7 @@ const mockFetchGames = jest.mocked(fetchGames);
 
 jest.mock('@/db/queries');
 const mockedQueries = jest.mocked(queries);
+mockedQueries.startGameSync.mockResolvedValue({ id: 1 } as any);
 
 jest.mock('@/util/date');
 const mockedDate = jest.mocked(date);
