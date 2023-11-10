@@ -8,7 +8,6 @@ export type TeamStats<T extends {} = {}> = Prisma.TeamSeasonStatsGetPayload<T>;
 export type SeasonStats = {
   wins: number
   losses: number
-  ties: number
 };
 
 // API types

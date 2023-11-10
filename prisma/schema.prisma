@@ -48,7 +48,6 @@ model TeamSeasonStats {
   teamId Int
   wins   Int
   losses Int
-  ties   Int
   score  Int
   team   Team @relation("teamStatsRelation", fields: [teamId], references: [id])
 }

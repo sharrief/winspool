@@ -55,7 +55,6 @@ const stats = {
   score: 15,
   wins: 5,
   losses: 6,
-  ties: 0,
 };
 export const TieGames: Story = {
   args: {
@@ -63,7 +62,6 @@ export const TieGames: Story = {
     image: lakersLogo,
     theme: teamThemes.lakers,
     ...stats,
-    ties: 5,
   },
 };
 export const Lakers: Story = {

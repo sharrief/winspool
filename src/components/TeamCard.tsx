@@ -13,8 +13,6 @@ export interface TeamCardProps {
   wins: number | string
   /** The number of losses to display */
   losses: number | string
-  /** The number of ties to display */
-  ties: number | string
   /** The score to display */
   score: number | string
   /** The team color theme */
@@ -23,7 +21,7 @@ export interface TeamCardProps {
 
 export default function TeamCard({
   name, image, theme,
-  wins, losses, ties, score,
+  wins, losses, score,
 }: TeamCardProps) {
   return (
     <div
@@ -63,7 +61,6 @@ export default function TeamCard({
           {wins}
           {' '}
           -
-          {ties ? ` ${ties} -` : ''}
           {' '}
           {losses}
         </div>

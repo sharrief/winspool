@@ -35,7 +35,7 @@ export default function OwnerPoolSummary(props: OwnerPoolSummaryProps) {
           />
         </div>
         {teams.map(({
-          id, name, fullName, wins, losses, ties,
+          id, name, fullName, wins, losses,
         }) => (
           <div className="col-span-2 lg:col-span-1" key={id}>
             <TeamCard
@@ -44,7 +44,6 @@ export default function OwnerPoolSummary(props: OwnerPoolSummaryProps) {
               theme={teamThemes[name.toLowerCase().split(' ').join('_') as TeamName]}
               wins={wins ?? 'W'}
               losses={losses ?? 'L'}
-              ties={ties ?? 'T'}
               score={wins ?? 0}
             />
           </div>

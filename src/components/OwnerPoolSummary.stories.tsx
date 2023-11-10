@@ -25,11 +25,10 @@ const owner: Story['args']['owner'] = {
   id: 1,
   name: 'John Smith',
   wins: 7,
-  ties: 5,
   losses: 6,
 };
 const rank = 1;
-const teamStats = { wins: 10, ties: 1, losses: 9 };
+const teamStats = { wins: 10, losses: 9 };
 const teams: Story['args']['teams'] = [
   {
     id: 1,

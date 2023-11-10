@@ -1,5 +1,5 @@
-import getStatsBySeason from '@/util/getStatsBySeason';
 import { createStats, getGamesByTeamIds, getTeams } from '@/db/queries';
+import getStatsBySeason from '@/util/getStatsBySeason';
 
 /**
  * Loads the teams and games to aggregate the win/loss/tie stats
@@ -20,7 +20,6 @@ export default async function aggregateTeamSeasonStats() {
         wins,
         losses,
         season,
-        ties: 0,
         score: 0,
       })));
   }));

@@ -26,7 +26,6 @@ const stats = {
   score: 15,
   wins: 5,
   losses: 6,
-  ties: 0,
 };
 
 export const Lakers: Story = {
