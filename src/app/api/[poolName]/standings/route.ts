@@ -4,7 +4,7 @@ import {
 } from '@/db/queries';
 import SyncGames from '@/db/syncGames';
 import getRanks from '@/util/getRanks';
-import aggregateStatsBySeason from '@/util/aggregateStatsBySeason';
+import aggregateStatsByTeam from '@/util/aggregateStatsByTeam';
 import { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
@@ -43,13 +43,11 @@ export async function GET(
     const teamIds = draft
       .reduce((ids, { teams }) => ids.concat(teams.map(({ id }) => id)), [] as number[]);
     const games = await getGamesByTeamIds(teamIds, season);
-    const statsBySeason = aggregateStatsBySeason(games, 30);
-    const totals = statsBySeason.get(season) ?? [];
-    const [,...teams] = totals; // array is indexed by teamID, starting at 1
+    const statsByTeam = aggregateStatsByTeam(games);
     await deleteStats(season);
-    await createStats(teams
-      .map(({ wins, losses }, idx) => ({
-        teamId: idx + 1,
+    await createStats([...statsByTeam]
+      .map(([teamId, { wins, losses }]) => ({
+        teamId,
         wins,
         losses,
         season,

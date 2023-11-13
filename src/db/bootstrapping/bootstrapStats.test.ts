@@ -1,4 +1,4 @@
-import aggregateTeamSeasonStats from '@/db/bootstrapping/aggregateTeamSeasonStats';
+import bootstrapStats from '@/db/bootstrapping/bootstrapStats';
 import { createStats, getGamesByTeamIds, getTeams } from '@/db/queries';
 import { mockDBGame, mockDBTeam } from '@/db/bootstrapping/mockData';
 
@@ -8,7 +8,7 @@ const mockedGetTeams = jest.mocked(getTeams);
 const mockedGetGamesByTeamIds = jest.mocked(getGamesByTeamIds);
 const mockedCreateStats = jest.mocked(createStats);
 
-describe('aggregateTeamSeasonStats', () => {
+describe('bootstrapStats', () => {
   it('inserts stats into the db', async () => {
     mockedGetTeams.mockResolvedValue([
       mockDBTeam,
@@ -18,7 +18,6 @@ describe('aggregateTeamSeasonStats', () => {
     mockedGetGamesByTeamIds.mockResolvedValue([
       {
         ...mockDBGame,
-        // 1 WIN 2 LOSS
         homeTeamId: 1,
         awayTeamId: 2,
         homeScore: 5,
@@ -26,7 +25,6 @@ describe('aggregateTeamSeasonStats', () => {
       },
       {
         ...mockDBGame,
-        // 2 WIN 3 LOSS
         homeTeamId: 2,
         awayTeamId: 3,
         homeScore: 10,
@@ -34,7 +32,6 @@ describe('aggregateTeamSeasonStats', () => {
       },
       {
         ...mockDBGame,
-        // 3 WIN 1 LOSS
         homeTeamId: 1,
         awayTeamId: 3,
         homeScore: 1,
@@ -42,9 +39,6 @@ describe('aggregateTeamSeasonStats', () => {
       },
       {
         ...mockDBGame,
-        // SEASON 2
-        season: 2,
-        // 3 WIN 1 LOSS
         homeTeamId: 1,
         awayTeamId: 3,
         homeScore: 1,
@@ -52,25 +46,17 @@ describe('aggregateTeamSeasonStats', () => {
       },
     ]);
     // Act
-    await aggregateTeamSeasonStats();
+    await bootstrapStats();
     // Assert
-    expect(mockedCreateStats).toHaveBeenNthCalledWith(1, expect.arrayContaining([
+    expect(mockedCreateStats).toHaveBeenCalledWith(expect.arrayContaining([
       expect.objectContaining({
-        season: 1, teamId: 1, wins: 1, losses: 1,
+        season: 2020, teamId: 1, wins: 1, losses: 2, score: 0,
       }),
       expect.objectContaining({
-        season: 1, teamId: 2, wins: 1, losses: 1,
+        season: 2020, teamId: 2, wins: 1, losses: 1, score: 0,
       }),
       expect.objectContaining({
-        season: 1, teamId: 3, wins: 1, losses: 1,
-      }),
-    ]));
-    expect(mockedCreateStats).toHaveBeenNthCalledWith(2, expect.arrayContaining([
-      expect.objectContaining({
-        season: 2, teamId: 1, wins: 0, losses: 1,
-      }),
-      expect.objectContaining({
-        season: 2, teamId: 3, wins: 1, losses: 0,
+        season: 2020, teamId: 3, wins: 2, losses: 1, score: 0,
       }),
     ]));
   });
