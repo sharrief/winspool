@@ -72,6 +72,12 @@ model SeasonDraft {
   @@unique([ownerId, winsPoolId])
 }
 
+model SeasonMeta {
+  id Int @id @default(autoincrement())
+  season Int
+  regularSeasonStart DateTime
+}
+
 model Team {
   id              Int               @id @default(autoincrement())
   abbreviation    String            @db.VarChar(5)

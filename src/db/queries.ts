@@ -1,5 +1,6 @@
 import prisma from '@/db/prisma';
 import { Game, TeamStats } from '@/db/dataTypes';
+import { DateTime } from 'luxon';
 
 export async function getGameCount() {
   return prisma.game.count();
@@ -44,6 +45,24 @@ export async function updateGames(games: Game[]) {
       },
     )),
   );
+}
+
+export async function getSchedule(season: number, weekNumber: number): Promise<Game[]> {
+  const seasonMeta = await prisma.seasonMeta.findFirst({ where: { season } });
+  if (!seasonMeta) return [];
+  const week = DateTime.fromJSDate(seasonMeta.regularSeasonStart).plus({ weeks: weekNumber - 1 });
+  const startOfWeek = week.startOf('week');
+  const endOfWeek = week.endOf('week');
+  const games = await prisma.game.findMany({
+    where: {
+      season,
+      AND: [
+        { date: { gte: startOfWeek.toJSDate() } },
+        { date: { lte: endOfWeek.toJSDate() } },
+      ],
+    },
+  });
+  return games;
 }
 
 export async function getGamesByTeamIds(ids: number[], season?: number) {
