@@ -34,7 +34,7 @@ export default function GameList({ games }: GameListProps) {
         <div className="w-full" key={date.toString()}>
           <div className="mb-2">
             <div className="py-5 border-b-2 border-neutral-500 drop-shadow-xl flex flex-row w-full">
-              <span className="drop-shadow-md text-2xl lg:text-5xl pe-2">
+              <span className="drop-shadow-md text-xl lg:text-2xl pe-2">
                 <h1>{date.toString()}</h1>
               </span>
             </div>
