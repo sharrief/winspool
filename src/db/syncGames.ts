@@ -29,7 +29,7 @@ export default async function SyncGames(season: number) {
   if (lastSyncTime && lastSyncTime + syncDelay > now) return false;
 
   /* Init a sync so subsequent calls during sync don't duplicate fetch calls */
-  const syncItem = await startGameSync(now);
+  const syncItem = await startGameSync(now, season);
   /* Sync games from lastSync or yesterday to today */
   const yesterday = getYesterdayInMs();
   const startTime = (

@@ -31,6 +31,7 @@ model GameSyncHistory {
   dateFetchEnded     DateTime? @db.Timestamptz(6)
   latestDayFinalized DateTime? @db.Date()
   status             String    @db.VarChar(256)
+  season             Int       @default(2023)
   gamesUpdatedApiIds Int[]
 }
 

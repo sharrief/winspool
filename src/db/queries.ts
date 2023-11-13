@@ -88,6 +88,7 @@ export async function getStats(season: number) {
 export async function getLastSyncTime(season: number) {
   const lastSync = await prisma.gameSyncHistory.aggregate({
     where: {
+      season,
       status: { contains: 'success' },
       dateFetchEnded: { not: null },
     },
@@ -107,9 +108,10 @@ export async function getSyncInProgress() {
   });
 }
 
-export async function startGameSync(now: number) {
+export async function startGameSync(now: number, season: number) {
   return prisma.gameSyncHistory.create({
     data: {
+      season,
       dateFetchStarted: new Date(now),
       dateFetchEnded: null,
       latestDayFinalized: null,
