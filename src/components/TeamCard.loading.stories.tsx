@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import getTeamMeta from '@/util/getTeamMeta';
 import TeamCard from './TeamCard.loading';
-import teamThemes from '../util/teamThemes';
-import lakersLogo from '../../public/images/lakers.png';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -28,11 +27,12 @@ const stats = {
   losses: 6,
 };
 
+const { fullName, logo, ...rest } = getTeamMeta(1);
 export const Lakers: Story = {
   args: {
-    name: 'Los Angeles Lakers',
-    image: lakersLogo,
-    theme: teamThemes.lakers,
+    name: fullName,
+    image: logo,
+    theme: rest,
     ...stats,
   },
 };

@@ -1,6 +1,6 @@
 import React from 'react';
-import { TeamTheme } from '@/util/teamThemes';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { TeamTheme } from '@/util/getTeamMeta';
+import { StaticImageData } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
 
 /** The props for the TeamCard */
@@ -8,7 +8,7 @@ export interface TeamCardProps {
   /** The team name */
   name: string
   /** The team logo image */
-  image: string | StaticImport
+  image: string | StaticImageData
   /** The number of wins to display */
   wins: number | string
   /** The number of losses to display */

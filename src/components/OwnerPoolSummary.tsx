@@ -1,8 +1,8 @@
 import React from 'react';
 import OwnerHeading from '@/components/OwnerHeading';
 import TeamCard from '@/components/TeamCard';
-import teamThemes, { TeamName } from '@/util/teamThemes';
 import { SeasonStats } from '@/db/dataTypes';
+import getTeamMeta from '@/util/getTeamMeta';
 
 /**
  * The props for the OwnerSeasonSummary
@@ -33,21 +33,24 @@ export default function OwnerPoolSummary(props: OwnerPoolSummaryProps) {
           score={ownerWins}
         />
       </div>
-      <div className="flex flex-row gap-4 w-full">
+      <div className="flex flex-col md:flex-row gap-4 w-full">
         {teams.map(({
-          id, name, fullName, wins, losses,
-        }) => (
-          <div key={id} className="basis-auto flex-grow">
-            <TeamCard
-              name={fullName}
-              image={`/images/${name.toLowerCase().split(' ').join('_')}.png`}
-              theme={teamThemes[name.toLowerCase().split(' ').join('_') as TeamName]}
-              wins={wins ?? 'W'}
-              losses={losses ?? 'L'}
-              score={wins ?? 0}
-            />
-          </div>
-        ))}
+          id, wins, losses,
+        }) => {
+          const team = getTeamMeta(id);
+          return (
+            <div key={id} className="basis-auto flex-grow">
+              <TeamCard
+                name={team.fullName}
+                image={team.logo}
+                theme={team}
+                wins={wins ?? 'W'}
+                losses={losses ?? 'L'}
+                score={wins ?? 0}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
