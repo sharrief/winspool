@@ -6,6 +6,7 @@ import OwnerPoolSummary from '@/components/OwnerPoolSummary';
 import { Prisma } from '@prisma/client';
 import { StandingsRouteGETReturnType } from '@/app/api/[poolName]/standings/route';
 import env from '@/util/env';
+import Options from '@/util/options';
 
 async function getPool(poolName: string): Promise<
 Prisma.WinsPoolGetPayload<{}>
@@ -15,7 +16,10 @@ Prisma.WinsPoolGetPayload<{}>
 }
 
 async function getPoolStandings(poolName: string): Promise<StandingsRouteGETReturnType> {
-  const res = await fetch(`${env.WEB_HOST}/api/${poolName}/standings`, { next: { revalidate: 10 } });
+  const res = await fetch(
+    `${env.WEB_HOST}/api/${poolName}/standings`,
+    { next: { revalidate: Options.MINUTES_BETWEEN_SYNCS * 60 } },
+  );
   return res.json();
 }
 
