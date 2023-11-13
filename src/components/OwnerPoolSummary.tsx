@@ -25,19 +25,19 @@ export default function OwnerPoolSummary(props: OwnerPoolSummaryProps) {
   const { owner, rank, teams } = props;
   const { wins: ownerWins } = owner;
   return (
-    <div>
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-4 mb-2">
-          <OwnerHeading
-            name={owner.name || `Owner${owner.id}`}
-            place={rank}
-            score={ownerWins}
-          />
-        </div>
+    <div className="w-full">
+      <div className="mb-2">
+        <OwnerHeading
+          name={owner.name || `Owner${owner.id}`}
+          place={rank}
+          score={ownerWins}
+        />
+      </div>
+      <div className="flex flex-row gap-4 w-full">
         {teams.map(({
           id, name, fullName, wins, losses,
         }) => (
-          <div className="col-span-2 lg:col-span-1" key={id}>
+          <div key={id} className="basis-auto flex-grow">
             <TeamCard
               name={fullName}
               image={`/images/${name.toLowerCase().split(' ').join('_')}.png`}
