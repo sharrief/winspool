@@ -53,18 +53,22 @@ model TeamSeasonStats {
 }
 
 model WinsPool {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique @db.VarChar(50)
+  id     Int          @id @default(autoincrement())
+  name   String       @unique @db.VarChar(50)
   season Int
-  owners Owner[] @relation("poolOwnersRelation")
+  owners Owner[]      @relation("poolOwnersRelation")
+  draft  SeasonDraft[]
 }
 
 model SeasonDraft {
-  id      Int    @id @default(autoincrement())
-  season  Int
-  ownerId Int
-  teams   Team[]
-  owner   Owner  @relation("draftOwnerRelation", fields: [ownerId], references: [id])
+  id         Int      @id @default(autoincrement())
+  season     Int
+  ownerId    Int
+  winsPoolId Int      
+  teams      Team[]
+  owner      Owner    @relation("draftOwnerRelation", fields: [ownerId], references: [id])
+  winsPool   WinsPool @relation(fields: [winsPoolId], references: [id])
+  @@unique([ownerId, winsPoolId])
 }
 
 model Team {

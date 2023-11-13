@@ -21,6 +21,7 @@ export default async function loadLeagueData() {
     const connectTeams = teams.map((name) => ({ name: name.split(' ').map((w) => w.charAt(0).toUpperCase() + w.substring(1)).join(' ') }));
     await prisma.seasonDraft.create({
       data: {
+        winsPoolId: 1,
         season: 2020,
         ownerId,
         teams: {
@@ -33,6 +34,7 @@ export default async function loadLeagueData() {
     const connectTeams = teams.map((name) => ({ name: name.split(' ').map((w) => w.charAt(0).toUpperCase() + w.substring(1)).join(' ') }));
     await prisma.seasonDraft.create({
       data: {
+        winsPoolId: 2,
         season: 2021,
         ownerId,
         teams: {
