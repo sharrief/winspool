@@ -25,7 +25,7 @@ const validAPIGame = z.object({
   visitor_team_score: z.number().int(),
 });
 
-export default function parseGame(_game: APIGame): Game {
+export default function parseAPIGame(_game: APIGame): Game {
   const game = validAPIGame.parse(_game);
   return {
     ...game,

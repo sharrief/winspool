@@ -1,4 +1,4 @@
-import parseGame from '@/db/bootstrapping/parseGame';
+import parseAPIGame from '@/db/bootstrapping/parseAPIGame';
 import fetchGames from '@/db/fetchGames';
 import {
   completeGameSync,
@@ -43,7 +43,7 @@ export default async function SyncGames(season: number) {
       /* Update games in the DB */
       const games = page.map((g) => {
         gameIds.push(g.id);
-        return parseGame(g);
+        return parseAPIGame(g);
       });
       await updateGames(games);
     }

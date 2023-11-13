@@ -1,5 +1,5 @@
 import fetchGames from '@/db/fetchGames';
-import parseGame from '@/db/bootstrapping/parseGame';
+import parseAPIGame from '@/db/bootstrapping/parseAPIGame';
 import { getGameCount, createGames } from '@/db/queries';
 import loadSeasonIntoDB from './load.season';
 import { mockAPIGame } from './mockData';
@@ -9,7 +9,7 @@ jest.mock('@/db/queries');
 const mockedGetGameCount = jest.mocked(getGameCount);
 
 jest.mock('./parseGame');
-jest.mocked(parseGame).mockImplementation((a) => a as any);
+jest.mocked(parseAPIGame).mockImplementation((a) => a as any);
 
 jest.mock('@/db/fetchGames');
 const mockFetchGames = jest.mocked(fetchGames);

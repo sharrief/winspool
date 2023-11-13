@@ -3,7 +3,7 @@ import delay from '@/util/delay';
 import { createGames, getGameCount } from '@/db/queries';
 import fetchGames from '@/db/fetchGames';
 import logger from '@/util/logger';
-import parseGame from '@/db/bootstrapping/parseGame';
+import parseAPIGame from '@/db/bootstrapping/parseAPIGame';
 
 config();
 
@@ -24,7 +24,7 @@ export default async function loadSeasonIntoDB(season: number) {
     if (!games.length) break;
 
     /** Parse and save the game */
-    await createGames(games.map((g) => (parseGame(g))));
+    await createGames(games.map((g) => (parseAPIGame(g))));
     savedCount += games.length;
     logger.log(`Loaded ${savedCount} games.`);
 
