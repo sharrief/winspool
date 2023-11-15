@@ -6,5 +6,6 @@ const Options = {
   PAGE_SIZE: +(env.PAGE_SIZE ?? 100),
   SECONDS_BETWEEN_FETCH: +(env.SECONDS_BETWEEN_FETCH ?? 1),
   STARTING_SEASON: +(env.STARTING_SEASON ?? 2020),
+  CURRENT_SEASON: +(env.CURRENT_SEASON ?? 2023),
 };
 export default Options;

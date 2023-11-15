@@ -1,5 +1,6 @@
+import Options from '@/util/options';
 import { redirect } from 'next/navigation';
 
 export default function page() {
-  redirect('/schedule/2023/1');
+  redirect(`/schedule/${Options.CURRENT_SEASON}`);
 }
