@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 /** Props for the PaginationNavigation component */
@@ -17,25 +18,25 @@ export default function PaginationNavigation({
   return (
     <div className="join">
       {prevPath && (
-        <a
+        <Link
           type="button"
           className="join-item btn"
           href={prevPath}
         >
           «
-        </a>
+        </Link>
       )}
       <button type="button" className="join-item btn">
         {label}
       </button>
       {nextPath && (
-        <a
+        <Link
           type="button"
           className="join-item btn"
           href={nextPath}
         >
           »
-        </a>
+        </Link>
       )}
     </div>
   );
