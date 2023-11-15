@@ -5,6 +5,8 @@ import GameList from '@/components/GameList';
 import deserializeGame from '@/util/deserializeGame';
 import { notFound } from 'next/navigation';
 import type API from '@/app/api/API';
+import PaginationNavigation from '@/components/PaginationNavigation';
+import DropdownNavigation from '@/components/DropdownNavigation';
 
 /** Fetches the games for the provided season and week from the API
  * @param season The season containing the games to fetch
@@ -48,47 +50,19 @@ export default async function Schedule({ params: { season, week } }: SchedulePag
   const seasonsMeta = await getSeasonMeta();
   return (
     <div className="mx-auto w-10/12 sm:w-3/4">
-      <div className="py-5 drop-shadow-xl flex flex-row w-full">
-        <details className="dropdown drop-shadow-md text-2xl lg:text-5xl flex-auto">
-          <summary className="btn">
-            Season
-            {' '}
-            {season}
-          </summary>
-          <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-            {seasonsMeta
-              .filter((m) => m.season !== +season)
-              .sort((a, b) => b.season - a.season)
-              .map(({ season: s }) => (
-                <li key={s}>
-                  <a href={`/schedule/${s}`}>{s}</a>
-                </li>
-              ))}
-          </ul>
-        </details>
-        <div className="join">
-          {+week > 1 && (
-            <a
-              type="button"
-              className="join-item btn"
-              href={`/schedule/${season}/${+week - 1}`}
-            >
-              «
-            </a>
-          )}
-          <button type="button" className="join-item btn">
-            Week
-            {' '}
-            {week}
-          </button>
-          <a
-            type="button"
-            className="join-item btn"
-            href={`/schedule/${season}/${+week + 1}`}
-          >
-            »
-          </a>
-        </div>
+      <div className="py-5 flex">
+        <DropdownNavigation
+          label={`Season ${season}`}
+          options={seasonsMeta
+            .filter((m) => m.season !== +season)
+            .sort((a, b) => b.season - a.season)
+            .map(({ season: s }) => ({ label: `${s}`, path: `/schedule/${s}` }))}
+        />
+        <PaginationNavigation
+          label={`Week ${week}`}
+          prevPath={+week > 1 ? `/schedule/${season}/${+week - 1}` : undefined}
+          nextPath={`/schedule/${season}/${+week + 1}`}
+        />
       </div>
       <GameList games={games} />
     </div>
