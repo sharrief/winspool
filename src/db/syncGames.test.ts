@@ -5,7 +5,7 @@ import SyncGames from '@/db/syncGames';
 import * as date from '@/util/date';
 import Options from '@/util/options';
 
-jest.mock('@/db/bootstrapping/parseGame', () => jest.fn((g) => g));
+jest.mock('@/db/bootstrapping/parseAPIGame', () => jest.fn((g) => g));
 jest.mock('@/db/fetchGames', () => jest.fn(function* fetchGamesGen() {
   yield [mockDBGame];
   yield [{ ...mockDBGame, id: 2 }];

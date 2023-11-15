@@ -8,7 +8,7 @@ import { mockAPIGame } from './mockData';
 jest.mock('@/db/queries');
 const mockedGetGameCount = jest.mocked(getGameCount);
 
-jest.mock('./parseGame');
+jest.mock('./parseAPIGame');
 jest.mocked(parseAPIGame).mockImplementation((a) => a as any);
 
 jest.mock('@/db/fetchGames');

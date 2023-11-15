@@ -1,6 +1,7 @@
 import {
-  APIGame, APITeam, Game, Team,
+  APIGame, APITeam, Game,
 } from '@/db/dataTypes';
+import { Team } from '@/util/getTeamMeta';
 
 export const mockAPITeam: APITeam = {
   id: 1,
@@ -14,7 +15,7 @@ export const mockAPITeam: APITeam = {
 export const mockDBTeam: Team = {
   id: mockAPITeam.id,
   abbreviation: mockAPITeam.abbreviation,
-  name: mockAPITeam.name,
+  name: mockAPITeam.name as Team['name'],
   fullName: mockAPITeam.full_name,
   city: mockAPITeam.city,
   conference: mockAPITeam.conference,
