@@ -1,6 +1,7 @@
 import prisma from '@/db/prisma';
 import { Game, TeamStats } from '@/db/dataTypes';
 import { DateTime } from 'luxon';
+import { Prisma } from '@prisma/client';
 
 export async function getGameCount() {
   return prisma.game.count();
@@ -65,6 +66,18 @@ export async function getSchedule(season: number, weekNumber: number): Promise<G
   return games;
 }
 
+export async function getSeasonsMeta(): Promise<Prisma.SeasonMetaGetPayload<{}>[]>;
+export async function getSeasonsMeta(season: number): Promise<Prisma.SeasonMetaGetPayload<{}>>;
+export async function getSeasonsMeta(season?: number) {
+  if (season) {
+    return prisma.seasonMeta.findFirst({
+      where: { season },
+    });
+  }
+  const meta = await prisma.seasonMeta.findMany();
+  return meta;
+}
+
 export async function getGamesByTeamIds(ids: number[], season?: number) {
   const whereSeason = season ? { season } : {};
   return prisma.game.findMany({
@@ -75,11 +88,17 @@ export async function getGamesByTeamIds(ids: number[], season?: number) {
   });
 }
 
+export async function getGamesForSeason(season: number) {
+  return prisma.game.findMany({
+    where: { season },
+  });
+}
+
 export async function getTeams() {
   return prisma.team.findMany();
 }
 
-export async function getPool(poolName: string) {
+export async function getDraftPicks(poolName: string) {
   return prisma.seasonDraft.findMany({
     where: { winsPool: { name: poolName } },
     include: {
@@ -87,6 +106,12 @@ export async function getPool(poolName: string) {
       owner: true,
       teams: true,
     },
+  });
+}
+
+export async function getPool(poolName: string) {
+  return prisma.winsPool.findFirst({
+    where: { name: poolName },
   });
 }
 

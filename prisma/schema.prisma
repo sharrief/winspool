@@ -76,6 +76,7 @@ model SeasonMeta {
   id Int @id @default(autoincrement())
   season Int
   regularSeasonStart DateTime
+  regularSeasonEnd DateTime @default("2024-01-01T00:00:00.000+00:00")
 }
 
 model Team {

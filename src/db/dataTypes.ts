@@ -4,10 +4,6 @@ import { Prisma } from '@prisma/client';
 export type Game<T extends {} = {}> = Prisma.GameGetPayload<T>;
 export type Owner<T extends {} = {}> = Prisma.OwnerGetPayload<T>;
 export type TeamStats<T extends {} = {}> = Prisma.TeamSeasonStatsGetPayload<T>;
-export type SeasonStats = {
-  wins: number
-  losses: number
-};
 
 // API types
 export type APIMeta = {
@@ -39,3 +35,10 @@ export type APITeam = {
   full_name: string
   name: string
 };
+
+// Custom types
+export type SeasonStats = {
+  wins: number
+  losses: number
+};
+export type TeamWithStats = Prisma.TeamGetPayload<{}> & SeasonStats;
