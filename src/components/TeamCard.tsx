@@ -29,29 +29,21 @@ export default function TeamCard({
       style={{ backgroundColor: theme.secondaryColor }}
     >
       <div
-        className="p-2 rounded-t-xl shadow-xl"
+        className="p-2 rounded-t-xl shadow-xl flex"
         style={{
+          width: 'auto',
+          height: 200,
           backgroundColor: theme.primaryColor,
         }}
       >
-        <figure
+        <Image
+          src={image}
+          alt={name}
+          priority
           style={{
-            height: 200,
-            width: 'auto',
-            position: 'relative',
+            objectFit: 'contain',
           }}
-        >
-          <Image
-            src={image}
-            alt={name}
-            fill
-            priority
-            sizes="200px"
-            style={{
-              objectFit: 'contain',
-            }}
-          />
-        </figure>
+        />
       </div>
       <div
         className={`px-2 py-11 rounded-b-xl ${theme.secondaryText === 'black' ? 'text-black' : 'text-white'}`}

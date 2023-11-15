@@ -35,14 +35,13 @@ export default function GameCard(props: GameCardProps) {
         className="col-span-1 rounded-l-lg flex justify-center align-center"
         style={{
           width: 'auto',
-          position: 'relative',
           backgroundColor: awayColor,
           borderRight: '2px solid black',
+          height: 75,
         }}
       >
         <Image
           src={awayLogo}
-          fill
           alt={awayAbbreviation}
           style={{
             objectFit: 'contain',
@@ -50,18 +49,18 @@ export default function GameCard(props: GameCardProps) {
         />
       </div>
       <div className="bg-base-100 text-base-content col-span-2 flex flex-col justify-center align-center px-5">
-        <p className="text-center">
-          <span className={`text-3xl text-center ${winner === 'away' ? 'underline' : ''}`}>
+        <p className="text-center text-base md:text-3xl">
+          <span className={`text-center ${winner === 'away' ? 'underline' : ''}`}>
             {awayAbbreviation}
             {' '}
             {started && awayScore}
             {' '}
           </span>
-          <span className="text-3xl text-center">
+          <span className="text-center">
             {started && '-'}
             {!started && '@'}
           </span>
-          <span className={`text-3xl text-center ${winner === 'home' ? 'underline' : ''}`}>
+          <span className={`text-center ${winner === 'home' ? 'underline' : ''}`}>
             {' '}
             {started && homeScore}
             {' '}
@@ -84,17 +83,16 @@ export default function GameCard(props: GameCardProps) {
         )}
       </div>
       <div
-        className="col-span-1 rounded-r-lg"
+        className="col-span-1 rounded-r-lg flex justify-center align-center"
         style={{
           width: 'auto',
-          position: 'relative',
           backgroundColor: homeColor,
           borderLeft: '2px solid black',
+          height: 75,
         }}
       >
         <Image
           src={homeLogo}
-          fill
           alt={homeAbbreviation}
           style={{
             objectFit: 'contain',
