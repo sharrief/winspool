@@ -3,19 +3,13 @@ import { ZodError, z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import messages from '@/util/messages';
 import OwnerPoolSummary from '@/components/OwnerPoolSummary';
-import { Prisma } from '@prisma/client';
-import { StandingsRouteGETReturnType } from '@/app/api/[poolName]/standings/route';
 import env from '@/util/env';
 import Options from '@/util/options';
+import type API from '@/app/api/API';
 
-async function getPool(poolName: string): Promise<
-Prisma.WinsPoolGetPayload<{}>
-> {
-  const res = await fetch(`${env.WEB_HOST}/api/${poolName}`);
-  return res.json();
-}
-
-async function getPoolStandings(poolName: string): Promise<StandingsRouteGETReturnType> {
+async function getPoolStandings(
+  poolName: string,
+): Promise<ReturnType<typeof API.getPoolStandings>> {
   const res = await fetch(
     `${env.WEB_HOST}/api/${poolName}/standings`,
     { next: { revalidate: Options.MINUTES_BETWEEN_SYNCS * 60 } },
@@ -34,10 +28,6 @@ async function getPoolOwnersAndTeams(_pool: string) {
     /** The _pool must be a string */
     const validString = z.string();
     const poolName = validString.parse(_pool);
-
-    /** Find the pool by name */
-    const pool = await getPool(poolName);
-    if (!pool) return { rankedOwners: [] };
 
     /** Return the owners with embedded team stats */
     const rankedOwners = await getPoolStandings(poolName);
