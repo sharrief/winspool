@@ -7,4 +7,6 @@ export default {
   GAME_FIND_BY_SEASON: 'Error while loading games for a season',
   GAME_FIND_BY_SEASON_IN_DATE_RANGE: 'Error while loading games in a date range',
   GAME_FIND_BY_TEAM: 'Error while loading games for a team',
+  SEASON_SCHEDULE_GET: 'Error while loading the games for a week',
+  SEASON_META_GET: 'Error while loading the metadata for a season',
 };

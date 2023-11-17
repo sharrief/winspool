@@ -1,5 +1,5 @@
 import {
-  APIGame, APITeam, Game,
+  APIGame, APITeam, Game, SeasonMeta,
 } from '@/db/dataTypes';
 import { Team } from '@/util/getTeamMeta';
 
@@ -48,4 +48,10 @@ export const mockDBGame: Game = {
   postseason: mockAPIGame.postseason,
   period: mockAPIGame.period,
   lastSync: null,
+};
+export const mockSeasonMeta: SeasonMeta = {
+  id: 1,
+  season: 1,
+  regularSeasonStart: new Date('2018-1-1'),
+  regularSeasonEnd: new Date('2018-1-1'),
 };
