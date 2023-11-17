@@ -1,4 +1,4 @@
-export default {
+const ERROR = {
   ERROR_GET_OWNER: 'An error occurred when loading the owner',
   GAME_COUNT: 'Error while getting game count',
   GAME_PARSE: 'Error while parsing a game',
@@ -9,4 +9,7 @@ export default {
   GAME_FIND_BY_TEAM: 'Error while loading games for a team',
   SEASON_SCHEDULE_GET: 'Error while loading the games for a week',
   SEASON_META_GET: 'Error while loading the metadata for a season',
+  POOL_FIND_BY_NAME: 'Error while loading the pool',
 };
+
+export default ERROR;
