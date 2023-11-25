@@ -12,6 +12,10 @@ const ERROR = {
   POOL_FIND_BY_NAME: 'Error while loading the pool',
   STATS_CREATE_MANY: 'Error while creating the stats',
   STATS_PARSE: 'Error while parsing a stat',
+  SYNC_GET_LAST: 'Error while loading info about the last sync',
+  SYNC_IN_PROGRESS: 'Error while loading sync in progress',
+  SYNC_START: 'Error while starting a game sync',
+  SYNC_COMPLETE: 'Error while completing a game sync',
 };
 
 export default ERROR;

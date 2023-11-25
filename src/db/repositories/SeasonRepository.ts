@@ -53,7 +53,7 @@ export default class SeasonRepository {
    * @returns The metadata for the specified season
    */
   static async getSeasonMeta(): Promise<SeasonMeta[]>;
-  static async getSeasonMeta(season: number): Promise<SeasonMeta[]>;
+  static async getSeasonMeta(season: number): Promise<SeasonMeta>;
   @LogError(ERROR.SEASON_META_GET)
   static async getSeasonMeta(season?: number) {
     //* Validate the season is either a number or not provided

@@ -6,6 +6,7 @@ export type Owner<T extends {} = {}> = Prisma.OwnerGetPayload<T>;
 export type TeamStats<T extends {} = {}> = Prisma.TeamSeasonStatsGetPayload<T>;
 export type TeamWithStats = Prisma.TeamGetPayload<{}> & SeasonStats;
 export type SeasonMeta = Prisma.SeasonMetaGetPayload<{}>;
+export type GameSyncHistory = Prisma.GameSyncHistoryGetPayload<{}>;
 
 // API types
 export type APIMeta = {
