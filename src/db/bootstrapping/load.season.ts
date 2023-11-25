@@ -1,9 +1,9 @@
 import { config } from 'dotenv';
 import delay from '@/util/delay';
-import { createGames, getGameCount } from '@/db/queries';
 import fetchGames from '@/db/fetchGames';
 import logger from '@/util/logger';
 import parseAPIGame from '@/db/bootstrapping/parseAPIGame';
+import GameRepository from '@/db/repositories/GameRepository';
 
 config();
 
@@ -12,7 +12,7 @@ config();
  * @param season The season whose games to load into the db
  */
 export default async function loadSeasonIntoDB(season: number) {
-  if (await getGameCount() > 0) { throw new Error('Games table not empty'); }
+  if (await GameRepository.count() > 0) { throw new Error('Games table not empty'); }
 
   /* Keep track of count of saved game for logging */
   let savedCount = 0;
@@ -24,7 +24,7 @@ export default async function loadSeasonIntoDB(season: number) {
     if (!games.length) break;
 
     /** Parse and save the game */
-    await createGames(games.map((g) => (parseAPIGame(g))));
+    await GameRepository.createMany(games.map((g) => (parseAPIGame(g))));
     savedCount += games.length;
     logger.log(`Loaded ${savedCount} games.`);
 

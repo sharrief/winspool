@@ -1,12 +1,18 @@
 import fetchGames from '@/db/fetchGames';
 import parseAPIGame from '@/db/bootstrapping/parseAPIGame';
-import { getGameCount, createGames } from '@/db/queries';
+import GameRepository from '@/db/repositories/GameRepository';
 import loadSeasonIntoDB from './load.season';
 import { mockAPIGame } from './mockData';
 
 // Arrange
-jest.mock('@/db/queries');
-const mockedGetGameCount = jest.mocked(getGameCount);
+jest.mock('@/db/repositories/GameRepository');
+const mockGameRepository = jest.mocked(GameRepository)
+  .mockImplementation(() => ({
+    count: jest.fn(() => 10),
+    createMany: jest.fn(),
+  }));
+const mockedGetGameCount = mockGameRepository.count;
+const mockedCreateGames = mockGameRepository.createMany;
 
 jest.mock('./parseAPIGame');
 jest.mocked(parseAPIGame).mockImplementation((a) => a as any);
@@ -37,8 +43,8 @@ describe('loadGamesIntoDB', () => {
     // Act
     await loadSeasonIntoDB(1);
     // Assert
-    expect(createGames).toHaveBeenNthCalledWith(1, expect.arrayContaining([game1]));
-    expect(createGames).toHaveBeenNthCalledWith(2, expect.arrayContaining([game2]));
-    expect(createGames).toHaveBeenCalledTimes(2);
+    expect(mockedCreateGames).toHaveBeenNthCalledWith(1, expect.arrayContaining([game1]));
+    expect(mockedCreateGames).toHaveBeenNthCalledWith(2, expect.arrayContaining([game2]));
+    expect(mockedCreateGames).toHaveBeenCalledTimes(2);
   });
 });
