@@ -1,6 +1,7 @@
 import { mockDBGame } from '@/db/bootstrapping/mockData';
 import fetchGames from '@/db/fetchGames';
-import * as queries from '@/db/queries';
+import GameRepository from '@/db/repositories/GameRepository';
+import GameSyncRepository from '@/db/repositories/GameSyncRepository';
 import SyncGames from '@/db/syncGames';
 import * as date from '@/util/date';
 import Options from '@/util/options';
@@ -10,11 +11,12 @@ jest.mock('@/db/fetchGames', () => jest.fn(function* fetchGamesGen() {
   yield [mockDBGame];
   yield [{ ...mockDBGame, id: 2 }];
 }));
+
 const mockFetchGames = jest.mocked(fetchGames);
 
-jest.mock('@/db/queries');
-const mockedQueries = jest.mocked(queries);
-mockedQueries.startGameSync.mockResolvedValue({ id: 1 } as any);
+const mockedGameSyncRepo = jest.mocked(GameSyncRepository);
+jest.mock('@/db/repositories/GameRepository');
+jest.mock('@/db/repositories/GameSyncRepository');
 
 jest.mock('@/util/date');
 const mockedDate = jest.mocked(date);
@@ -23,39 +25,38 @@ jest.mock('@/util/options');
 const mockedOptions = jest.mocked(Options);
 
 afterEach(() => {
-  mockedQueries.getSyncInProgress.mockReset();
-  mockedQueries.getLastSyncTime.mockReset();
+  jest.restoreAllMocks();
+  mockedOptions.MINUTES_BETWEEN_SYNCS = 10;
 });
 
 describe('syncGames', () => {
   it('doesn\'t sync if a sync is in progress', async () => {
     // Arrange
-    mockedQueries.getSyncInProgress.mockResolvedValueOnce(true as any);
     // Act
     const didSync = await SyncGames(2022);
     // Assert
     expect(didSync).toBe(false);
-    expect(queries.getSyncInProgress).toHaveBeenCalled();
-    expect(queries.getLastSyncTime).not.toHaveBeenCalled();
-    expect(queries.startGameSync).not.toHaveBeenCalled();
-    expect(queries.updateGames).not.toHaveBeenCalled();
+    expect(GameSyncRepository.getSyncInProgress).toHaveBeenCalled();
+    expect(GameSyncRepository.getLastSyncTime).not.toHaveBeenCalled();
+    expect(GameSyncRepository.startGameSync).not.toHaveBeenCalled();
+    expect(GameRepository.updateMany).not.toHaveBeenCalled();
   });
   it('doesn\'t sync if a sync was done too recently', async () => {
     // Arrange
-    mockedQueries.getSyncInProgress.mockResolvedValueOnce(false as any);
+    mockedGameSyncRepo.getSyncInProgress.mockResolvedValueOnce(false as any);
     /* Last sync was half a min ago, too soon to sync */
     mockedOptions.MINUTES_BETWEEN_SYNCS = 1;
     mockedDate.getNowInMs
       .mockReturnValueOnce(Options.MINUTES_BETWEEN_SYNCS * 1000);
-    mockedQueries.getLastSyncTime
+    mockedGameSyncRepo.getLastSyncTime
       .mockResolvedValueOnce(Options.MINUTES_BETWEEN_SYNCS * 500);
     // Act
     const didSync = await SyncGames(2022);
     // Assert
-    expect(queries.getSyncInProgress).toHaveBeenCalled();
-    expect(queries.getLastSyncTime).toHaveBeenCalled();
-    expect(queries.startGameSync).not.toHaveBeenCalled();
-    expect(queries.updateGames).not.toHaveBeenCalled();
+    expect(GameSyncRepository.getSyncInProgress).toHaveBeenCalled();
+    expect(GameSyncRepository.getLastSyncTime).toHaveBeenCalled();
+    expect(GameSyncRepository.startGameSync).not.toHaveBeenCalled();
+    expect(GameRepository.updateMany).not.toHaveBeenCalled();
     expect(didSync).toBe(false);
   });
   describe('when the last sync', () => {
@@ -81,8 +82,8 @@ describe('syncGames', () => {
     ])('%s', async (_, lastSyncTime) => {
       // Arrange
       mockedOptions.MINUTES_BETWEEN_SYNCS = minuteSyncDelay;
-      mockedQueries.getSyncInProgress.mockResolvedValueOnce(false as any);
-      mockedQueries.getLastSyncTime.mockResolvedValueOnce(lastSyncTime);
+      mockedGameSyncRepo.getSyncInProgress.mockResolvedValueOnce(false as any);
+      mockedGameSyncRepo.getLastSyncTime.mockResolvedValueOnce(lastSyncTime);
       mockedDate.getNowInMs
         .mockReturnValueOnce(valueOfNow);
       mockedDate.getYesterdayInMs
@@ -96,11 +97,11 @@ describe('syncGames', () => {
         Math.min(lastSyncTime, valueOfYesterday),
         valueOfNow,
       );
-      expect(queries.updateGames).toHaveBeenNthCalledWith(
+      expect(GameRepository.updateMany).toHaveBeenNthCalledWith(
         1,
         expect.arrayContaining([expect.objectContaining(mockDBGame)]),
       );
-      expect(queries.updateGames).toHaveBeenNthCalledWith(
+      expect(GameRepository.updateMany).toHaveBeenNthCalledWith(
         2,
         expect.arrayContaining([expect.objectContaining({ ...mockDBGame, id: 2 })]),
       );

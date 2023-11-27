@@ -1,9 +1,7 @@
 import parseAPIGame from '@/db/bootstrapping/parseAPIGame';
 import fetchGames from '@/db/fetchGames';
-import {
-  completeGameSync,
-  getLastSyncTime, getSyncInProgress, startGameSync, updateGames,
-} from '@/db/queries';
+import GameSyncRepository from '@/db/repositories/GameSyncRepository';
+import GameRepository from '@/db/repositories/GameRepository';
 import { getNowInMs, getYesterdayInMs } from '@/util/date';
 import Options from '@/util/options';
 import logger from '@/util/logger';
@@ -15,10 +13,18 @@ import logger from '@/util/logger';
  * the configured time between updates
  * @param season The season to sync games from
  * @returns Whether the sync was performed
- */
+*/
 export default async function SyncGames(season: number) {
+  const {
+    getSyncInProgress,
+    getLastSyncTime,
+    startGameSync,
+    completeGameSync,
+  } = GameSyncRepository;
+  const { updateMany } = GameRepository;
+
   /* Don't start sync if one is in progress */
-  const syncInProgress = await getSyncInProgress();
+  const syncInProgress = await getSyncInProgress(season);
   if (syncInProgress) return false;
 
   /* Don't start sync if not enough time has
@@ -45,7 +51,7 @@ export default async function SyncGames(season: number) {
         gameIds.push(g.id);
         return parseAPIGame(g);
       });
-      await updateGames(games);
+      await updateMany(games);
     }
   } catch (e: unknown) {
     logger.error(e instanceof Error ? e.message : e as string);
