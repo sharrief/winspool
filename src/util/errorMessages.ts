@@ -11,6 +11,8 @@ const ERROR = {
   SEASON_META_GET: 'Error while loading the metadata for a season',
   POOL_FIND_BY_NAME: 'Error while loading the pool',
   STATS_CREATE_MANY: 'Error while creating the stats',
+  STATS_FIND_MANY: 'Error while getting the stats',
+  STATS_DELETE_MANY: 'Error while deleting the stats',
   STATS_PARSE: 'Error while parsing a stat',
   SYNC_GET_LAST: 'Error while loading info about the last sync',
   SYNC_IN_PROGRESS: 'Error while loading sync in progress',

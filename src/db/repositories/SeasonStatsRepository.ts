@@ -43,4 +43,24 @@ export default class SeasonStatsRepository {
     const parsedStats = stats.map((s) => SeasonStatsRepository.parseStat(s));
     prisma.teamSeasonStats.createMany({ data: parsedStats });
   }
+
+  /**
+   * Gets stats from the database
+   * @param season The season to get stats for
+   */
+  @LogError(ERROR.STATS_FIND_MANY)
+  static async findMany(season: number) {
+    return prisma.teamSeasonStats.findMany({ where: { season } });
+  }
+
+  /**
+   * Deletes stats from the database
+   * @param season The season to delete stats for
+   */
+  @LogError(ERROR.STATS_DELETE_MANY)
+  static async deleteStats(season: number) {
+    return prisma.teamSeasonStats.deleteMany({
+      where: { season },
+    });
+  }
 }

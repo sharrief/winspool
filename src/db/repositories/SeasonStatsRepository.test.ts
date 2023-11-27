@@ -8,13 +8,19 @@ jest.mock('@/util/logger');
 const mockLogger = jest.mocked(logger);
 
 const prismaCreateManySpy = jest.spyOn(prisma.teamSeasonStats, 'createMany');
+const prismaFindManySpy = jest.spyOn(prisma.teamSeasonStats, 'findMany');
+const prismaDeleteManySpy = jest.spyOn(prisma.teamSeasonStats, 'deleteMany');
 
 beforeEach(() => {
   prismaCreateManySpy.mockImplementation(jest.fn());
+  prismaFindManySpy.mockImplementation(jest.fn());
+  prismaDeleteManySpy.mockImplementation(jest.fn());
 });
 
 afterEach(() => {
   prismaCreateManySpy.mockReset();
+  prismaFindManySpy.mockReset();
+  prismaDeleteManySpy.mockReset();
 });
 
 const validStats: TeamStats = {
@@ -56,6 +62,53 @@ describe('createStats', () => {
     expect(prismaCreateManySpy).toHaveBeenCalledTimes(1);
     expect(prismaCreateManySpy).toHaveBeenCalledWith(expect.objectContaining({
       data: expect.arrayContaining(inputStats.map(({ id, ...rest }) => rest)),
+    }));
+  });
+});
+
+describe('getStats', () => {
+  const season = 2022;
+  it('Logs errors', async () => {
+    const testError = 'Test error';
+    prismaFindManySpy.mockImplementationOnce(() => {
+      throw new Error(testError);
+    });
+    await expect(SeasonStatsRepository.findMany(season))
+      .rejects.toThrowError(ERROR.STATS_FIND_MANY);
+    expect(mockLogger.error)
+      .toHaveBeenCalledWith(expect.stringContaining(ERROR.STATS_FIND_MANY));
+  });
+
+  it('Returns stats from the database', async () => {
+    const stats = [] as any;
+    prismaFindManySpy.mockResolvedValueOnce(stats);
+    const ret = await SeasonStatsRepository.findMany(season);
+    expect(ret).toBe(stats);
+    expect(prismaFindManySpy).toHaveBeenCalledTimes(1);
+    expect(prismaFindManySpy).toHaveBeenCalledWith(expect.objectContaining({
+      where: expect.objectContaining({ season }),
+    }));
+  });
+});
+
+describe('deleteStats', () => {
+  const season = 2022;
+  it('Logs errors', async () => {
+    const testError = 'Test error';
+    prismaDeleteManySpy.mockImplementationOnce(() => {
+      throw new Error(testError);
+    });
+    await expect(SeasonStatsRepository.deleteStats(season))
+      .rejects.toThrowError(ERROR.STATS_DELETE_MANY);
+    expect(mockLogger.error)
+      .toHaveBeenCalledWith(expect.stringContaining(ERROR.STATS_DELETE_MANY));
+  });
+
+  it('Deletes stats from the database', async () => {
+    SeasonStatsRepository.deleteStats(season);
+    expect(prismaDeleteManySpy).toHaveBeenCalledTimes(1);
+    expect(prismaDeleteManySpy).toHaveBeenCalledWith(expect.objectContaining({
+      where: expect.objectContaining({ season }),
     }));
   });
 });
