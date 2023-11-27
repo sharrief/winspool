@@ -10,6 +10,7 @@ const ERROR = {
   SEASON_SCHEDULE_GET: 'Error while loading the games for a week',
   SEASON_META_GET: 'Error while loading the metadata for a season',
   POOL_FIND_BY_NAME: 'Error while loading the pool',
+  POOL_GET_PICKS: 'Error while loading the draft picks',
   STATS_CREATE_MANY: 'Error while creating the stats',
   STATS_FIND_MANY: 'Error while getting the stats',
   STATS_DELETE_MANY: 'Error while deleting the stats',

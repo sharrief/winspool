@@ -20,4 +20,23 @@ export default class PoolRepository {
       where: { name },
     });
   }
+
+  /**
+   * @param name The name of the pool for the draft
+   * @returns An array of draft picks
+   */
+  @LogError(ERROR.POOL_GET_PICKS)
+  static async getDraftPicks(poolName: string) {
+    const { success: nameIsValid } = PoolRepository.nameValidator.safeParse(poolName);
+    if (!nameIsValid) return null;
+
+    return prisma.seasonDraft.findMany({
+      where: { winsPool: { name: poolName } },
+      include: {
+        winsPool: true,
+        owner: true,
+        teams: true,
+      },
+    }) ?? [];
+  }
 }

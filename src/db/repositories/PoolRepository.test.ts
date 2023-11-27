@@ -2,10 +2,12 @@ import prisma from '@/db/prisma';
 import PoolRepository from '@/db/repositories/PoolRepository';
 import ERROR from '@/util/errorMessages';
 
-const prismaFindFirstSpy = jest.spyOn(prisma.winsPool, 'findFirst');
+const prismaPoolFindFirstSpy = jest.spyOn(prisma.winsPool, 'findFirst');
+const prismaDraftFindManySpy = jest.spyOn(prisma.seasonDraft, 'findMany');
 
 afterEach(() => {
-  prismaFindFirstSpy.mockReset();
+  prismaPoolFindFirstSpy.mockReset();
+  prismaDraftFindManySpy.mockReset();
 });
 
 describe('findByName', () => {
@@ -17,10 +19,10 @@ describe('findByName', () => {
   it('returns the pool matching the name from the database', async () => {
     const name = 'poolName';
     const mockPool = { name };
-    prismaFindFirstSpy.mockResolvedValue(mockPool as any);
+    prismaPoolFindFirstSpy.mockResolvedValue(mockPool as any);
     const result = await PoolRepository.findByName(name);
-    expect(prismaFindFirstSpy).toHaveBeenCalledTimes(1);
-    expect(prismaFindFirstSpy).toHaveBeenCalledWith(expect.objectContaining({
+    expect(prismaPoolFindFirstSpy).toHaveBeenCalledTimes(1);
+    expect(prismaPoolFindFirstSpy).toHaveBeenCalledWith(expect.objectContaining({
       where: expect.objectContaining({ name }),
     }));
     expect(result).toBe(mockPool);
@@ -28,8 +30,39 @@ describe('findByName', () => {
 
   it('Logs errors', async () => {
     const testError = 'Test error';
-    prismaFindFirstSpy.mockRejectedValue(new Error(testError));
+    prismaPoolFindFirstSpy.mockRejectedValue(new Error(testError));
     await expect(PoolRepository.findByName('poolName'))
       .rejects.toThrowError(`${ERROR.POOL_FIND_BY_NAME}: ${testError}`);
+  });
+});
+
+describe('getDraftPicks', () => {
+  it('returns null if provided invalid arguments', async () => {
+    const result = await PoolRepository.getDraftPicks(1 as any);
+    expect(result).toBeNull();
+  });
+
+  it('returns the drafts for the pool from the database', async () => {
+    const name = 'poolName';
+    const mockDraft = { name };
+    prismaDraftFindManySpy.mockResolvedValue(mockDraft as any);
+    const result = await PoolRepository.getDraftPicks(name);
+    expect(prismaDraftFindManySpy).toHaveBeenCalledTimes(1);
+    expect(prismaDraftFindManySpy).toHaveBeenCalledWith(expect.objectContaining({
+      where: expect.objectContaining({ winsPool: expect.objectContaining({ name }) }),
+      include: expect.objectContaining({
+        winsPool: true,
+        owner: true,
+        teams: true,
+      }),
+    }));
+    expect(result).toBe(mockDraft);
+  });
+
+  it('Logs errors', async () => {
+    const testError = 'Test error';
+    prismaDraftFindManySpy.mockRejectedValue(new Error(testError));
+    await expect(PoolRepository.getDraftPicks('poolName'))
+      .rejects.toThrowError(`${ERROR.POOL_GET_PICKS}: ${testError}`);
   });
 });
