@@ -19,6 +19,12 @@ const ERROR = {
   SYNC_IN_PROGRESS: 'Error while loading sync in progress',
   SYNC_START: 'Error while starting a game sync',
   SYNC_COMPLETE: 'Error while completing a game sync',
+  API_GET_SEASON_META: 'Error while retrieving the season metadata',
+  API_GET_GAME_BY_SCHEDULE: 'Error while retrieving the game schedule',
+  API_GET_STANDINGS: 'Error while retrieving the pool standings',
+  API_UPDATE_GAMES_STATS: 'Error while updating the games and stats',
+  API_GET_LATEST_WEEK: 'Error while getting the latest season week',
+  API_SYNC_GAMES: 'Error while syncing the season\'s games',
 };
 
 export default ERROR;

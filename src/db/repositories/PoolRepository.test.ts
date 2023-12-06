@@ -39,7 +39,7 @@ describe('findByName', () => {
 describe('getDraftPicks', () => {
   it('returns null if provided invalid arguments', async () => {
     const result = await PoolRepository.getDraftPicks(1 as any);
-    expect(result).toBeNull();
+    expect(result).toHaveLength(0);
   });
 
   it('returns the drafts for the pool from the database', async () => {

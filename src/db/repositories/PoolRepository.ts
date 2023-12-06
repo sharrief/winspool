@@ -28,7 +28,7 @@ export default class PoolRepository {
   @LogError(ERROR.POOL_GET_PICKS)
   static async getDraftPicks(poolName: string) {
     const { success: nameIsValid } = PoolRepository.nameValidator.safeParse(poolName);
-    if (!nameIsValid) return null;
+    if (!nameIsValid) return [];
 
     return prisma.seasonDraft.findMany({
       where: { winsPool: { name: poolName } },

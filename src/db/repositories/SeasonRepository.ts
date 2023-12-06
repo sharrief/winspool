@@ -1,4 +1,4 @@
-import { SeasonMeta } from '@/db/dataTypes';
+import type { SeasonMeta } from '@/db/dataTypes';
 import prisma from '@/db/prisma';
 import GameRepository from '@/db/repositories/GameRepository';
 import LogError from '@/util/decorators/LogError';
